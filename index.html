@@ -4,530 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SELGRA PoC</title>
-    <link href="https://cdn.jsdelivr.net/npm/gridstack@10.3.1/dist/gridstack.min.css" rel="stylesheet"/>
     <style>
         @keyframes move-stars {
             from { background-position: 0 0; }
             to { background-position: -10000px 5000px; }
         }
+
+        :root {
+            --primary-bg: #0a0e23;
+            --container-bg: rgba(12, 20, 69, 0.7);
+            --accent-color: #00c2cb; /* A calmer, cyan-like blue */
+            --accent-color-hover: #4dd0e1;
+            --text-color: #e0e0e0;
+            --header-bg: rgba(12, 20, 69, 0.9);
+            --border-color: rgba(0, 194, 203, 0.5);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #0a0e23;
+            background-color: var(--primary-bg);
             background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="10" cy="10" r="1" fill="white"/><circle cx="50" cy="30" r="0.5" fill="white"/><circle cx="80" cy="70" r="1.2" fill="white"/><circle cx="30" cy="90" r="0.8" fill="white"/></svg>');
             animation: move-stars 200s linear infinite;
-            color: #ffffff;
+            color: var(--text-color);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding-top: 80px; /* Space for the fixed header */
         }
-        .hidden { display: none; }
-        .login-container {
-            padding: 2.5rem;
-            background: rgba(12, 20, 69, 0.8);
-            border: 1px solid #00aaff;
-            border-radius: 15px;
-            box-shadow: 0 0 25px rgba(0, 170, 255, 0.5);
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        #main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
             backdrop-filter: blur(10px);
-            width: 350px;
         }
-        h2 {
-            text-align: center;
-            color: #00aaff;
-            text-shadow: 0 0 10px #00aaff;
-            margin-bottom: 1.5rem;
-        }
-        input[type="text"], input[type="password"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #00aaff;
-            background-color: #1a233a;
-            color: white;
-        }
-        input[type="text"]::placeholder, input[type="password"]::placeholder {
-            color: #ccc;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 1rem;
-            border: none;
-            border-radius: 5px;
-            background-color: #00aaff;
-            color: #0a0e23;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        button:hover {
-            background-color: #33bbff;
-            box-shadow: 0 0 15px #00aaff;
-        }
-        .flash-error {
-            background-color: #ff4d4d;
-            color: white;
-            padding: 1rem;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        .dashboard {
-            width: 100%;
-            height: 100%;
+
+        #main-header .container {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
         }
-        nav {
+
+        #main-header h1 {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--accent-color);
+            margin: 0;
+        }
+
+        #main-header nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
             display: flex;
-            justify-content: flex-end;
-            padding: 1.5rem;
-            background-color: rgba(0,0,0,0.3);
-            border-bottom: 1px solid #00aaff;
+            gap: 1.5rem;
         }
-        nav a {
-            color: #00aaff;
+
+        #main-header nav a {
+            color: var(--text-color);
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s, text-shadow 0.3s;
+            font-size: 1rem;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
         }
-        nav a:hover {
-            color: #fff;
-            text-shadow: 0 0 10px #00aaff;
+
+        #main-header nav a:hover {
+            color: var(--accent-color-hover);
+            border-bottom-color: var(--accent-color-hover);
         }
-        header {
-            text-align: center;
-            padding: 2rem 0;
+
+        main .container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
-        main {
-            flex-grow: 1;
-            overflow-y: auto;
+
+        section {
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 15px rgba(0, 194, 203, 0.2);
         }
-        .admin-panel {
-            background-color: rgba(0, 170, 255, 0.1);
-            border: 1px solid #00aaff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0 auto 2rem auto;
-            max-width: 80%;
-            text-align: center;
+
+        section:last-child {
+            margin-bottom: 0;
         }
-        .content-wrapper {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
+
+        section h2 {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
-        .social-feed, .google-calendar {
-            flex: 1;
-            max-width: 600px;
-            background-color: rgba(12, 20, 69, 0.7);
-            border: 1px solid #00aaff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
-            height: 70vh;
-            overflow-y: auto;
+
+        p {
+            line-height: 1.6;
         }
-        .google-calendar iframe {
-            border-radius: 8px;
-        }
+
+        /* Juicer.io feed specific styles for dark theme */
         .juicer-feed { background-color: transparent !important; }
         .juicer-feed .j-header { display: none !important; }
         .juicer-feed .j-post {
             background-color: rgba(26, 35, 58, 0.8) !important;
             border-radius: 8px !important;
-            border: 1px solid #00aaff !important;
-            color: #fff !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-color) !important;
         }
-        .juicer-feed .j-post a { color: #00aaff !important; }
+        .juicer-feed .j-post a { color: var(--accent-color) !important; }
 
-        /* --- New Dashboard Styles --- */
-        .controls-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem 1.5rem 2rem;
-            border-bottom: 1px solid #00aaff;
-            margin-bottom: 2rem;
-        }
-        .tab-nav button {
-            background: none;
-            border: none;
-            color: #00aaff;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            opacity: 0.7;
-        }
-        .tab-nav button.active, .tab-nav button:hover {
-            opacity: 1;
-            text-shadow: 0 0 8px #00aaff;
-            border-bottom: 2px solid #00aaff;
-        }
-        .view-switcher button {
-            background: rgba(12, 20, 69, 0.8);
-            border: 1px solid #00aaff;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .view-switcher button.active {
-            background: #00aaff;
-            color: #0a0e23;
-            box-shadow: 0 0 10px #00aaff;
-        }
-
-        /* --- GridStack Styles --- */
-        .grid-stack {
-            background: rgba(10, 14, 35, 0.5);
-        }
-        .grid-stack-item-content {
-            background-color: rgba(12, 20, 69, 0.7);
-            border: 1px solid #00aaff;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
-            color: #ffffff;
-            padding: 1.5rem;
-            overflow-y: auto;
-        }
-        .grid-stack > .grid-stack-item > .grid-stack-item-content {
-            left: 5px;
-            right: 5px;
-            top: 5px;
-            bottom: 5px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Login View -->
-    <div id="login-view">
-        <div class="login-container">
-            <div id="flash-message" class="flash-error hidden"></div>
-            <form id="login-form">
-                <h2>Login</h2>
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
+    <header id="main-header">
+        <div class="container">
+            <h1>SELGRA</h1>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#history">History</a></li>
+                    <li><a href="#join">Join Us</a></li>
+                    <li><a href="#feed">Social Feed</a></li>
+                    <li><a href="#calendar">Calendar</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <!-- Dashboard View (Initially Hidden) -->
-    <div id="dashboard-view" class="dashboard hidden">
-        <nav>
-            <a href="#" id="logout-button">Logout</a>
-        </nav>
-        <header>
-            <h1>Welcome to SELGRA</h1>
-        </header>
-        <main>
-            <div class="controls-container">
-                <div id="tab-nav" class="tab-nav">
-                    <!-- Tab links will be generated by JS -->
-                </div>
-                <div class="view-switcher">
-                    <button id="tab-view-btn" class="active">Tab View</button>
-                    <button id="module-view-btn">Module View</button>
-                </div>
-            </div>
+    <main>
+        <div class="container">
+            <section id="about">
+                <h2>About SELGRA</h2>
+                <p>SELGRA is the student chapter of the European Low Gravity Research Association aiming to be the point of reference for gravity-related students all over Europe. SELGRA works hard to organise and support outreach activities as well as to support its members to present and promote their research.</p>
+                <p>SELGRA is a European student association under the umbrella of ELGRA, committed to: Divulge gravity related research, Support students, and Providing students who join SELGRA with an extended network of experts in the field of gravity research.</p>
+            </section>
 
-            <div id="social-feed-container" class="hidden">
+            <section id="history">
+                <h2>History</h2>
+                <p>The idea of forming a student ELGRA group was first outlined by Javier Medina, Carole Leguy, and Andrew Winnard in September 2013 when they invited all students attending the ELGRA Symposium held at the Vatican City for a discussion.</p>
+                <p>It was clear that ELGRA would benefit from having a stronger student base, and that there should be a platform at the student level for all gravity-related research in Europe. This association would thus serve as the nexus of discussions, information, news and opportunities for all students within the scientific community. With this mission in mind, SELGRA (Student ELGRA) was established.</p>
+            </section>
+
+            <section id="join">
+                <h2>Become a Member</h2>
+                <p>SELGRA offers you a complete set of information related to microgravity research regarding: Internships, PhD positions, Masters and Master Scholarships, ESA Education Projects, and much more.</p>
+                <p>Join SELGRA by following the steps on the official ELGRA website. Be social! Join our Facebook, Twitter, and Instagram.</p>
+            </section>
+
+            <section id="feed">
                 <h2>Social Feed</h2>
                 <script src="https://assets.juicer.io/embed-amd.js" type="text/javascript"></script>
                 <link href="https://assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
                 <ul class="juicer-feed" data-feed-id="juicer"><h1 class="referral"><a href="https://www.juicer.io">Powered by Juicer</a></h1></ul>
-            </div>
-            <div id="calendar-container" class="hidden">
+            </section>
+
+            <section id="calendar">
                 <h2>Calendar</h2>
-                <iframe id="google-calendar-iframe" src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="100%" height="500px" frameborder="0" scrolling="no"></iframe>
-            </div>
+                <iframe id="google-calendar-iframe" src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="100%" height="600px" frameborder="0" scrolling="no"></iframe>
+            </section>
+        </div>
+    </main>
 
-            <div class="grid-stack">
-                <!-- Admin Panel Widget -->
-                <div id="admin-panel" class="grid-stack-item hidden" gs-w="12" gs-h="2">
-                    <div class="grid-stack-item-content admin-panel" data-tab-id="admin">
-                        <h3>Admin Instructions</h3>
-                        <p>This is a static PoC. You can drag and resize these windows. The layout is saved automatically!</p>
-                    </div>
-                </div>
-
-                <!-- Home/About Widget -->
-                <div class="grid-stack-item" gs-x="0" gs-y="9" gs-w="12" gs-h="4">
-                    <div class="grid-stack-item-content" data-tab-id="about">
-                        <h2>About SELGRA</h2>
-                        <p>SELGRA is the student chapter of the European Low Gravity Research Association aiming to be the point of reference for gravity-related students all over Europe. SELGRA works hard to organise and support outreach activities as well as to support its members to present and promote their research.</p>
-                        <p>SELGRA is a European student association under the umbrella of ELGRA, committed to: Divulge gravity related research, Support students, and Providing students who join SELGRA with an extended network of experts in the field of gravity research.</p>
-                    </div>
-                </div>
-
-                <!-- History Widget -->
-                <div class="grid-stack-item" gs-w="6" gs-h="5">
-                     <div class="grid-stack-item-content" data-tab-id="history">
-                        <h2>History</h2>
-                        <p>The idea of forming a student ELGRA group was first outlined by Javier Medina, Carole Leguy, and Andrew Winnard in September 2013 when they invited all students attending the ELGRA Symposium held at the Vatican City for a discussion.</p>
-                        <p>It was clear that ELGRA would benefit from having a stronger student base, and that there should be a platform at the student level for all gravity-related research in Europe. This association would thus serve as the nexus of discussions, information, news and opportunities for all students within the scientific community. With this mission in mind, SELGRA (Student ELGRA) was established.</p>
-                    </div>
-                </div>
-
-                <!-- Become a Member Widget -->
-                <div class="grid-stack-item" gs-w="6" gs-h="5">
-                    <div class="grid-stack-item-content" data-tab-id="join">
-                        <h2>Become a Member</h2>
-                        <p>SELGRA offers you a complete set of information related to microgravity research regarding: Internships, PhD positions, Masters and Master Scholarships, ESA Education Projects, and much more.</p>
-                        <p>Join SELGRA by following the steps on the official ELGRA website. Be social! Join our Facebook, Twitter, and Instagram.</p>
-                    </div>
-                </div>
-
-            </div>
-        </main>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/gridstack@10.3.1/dist/gridstack-all.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- Basic Page Elements ---
-            const loginView = document.getElementById('login-view');
-            const dashboardView = document.getElementById('dashboard-view');
-            const loginForm = document.getElementById('login-form');
-            const logoutButton = document.getElementById('logout-button');
-            const adminPanel = document.getElementById('admin-panel');
-            const flashMessage = document.getElementById('flash-message');
-
-            // --- New Dashboard Elements ---
-            const tabViewBtn = document.getElementById('tab-view-btn');
-            const moduleViewBtn = document.getElementById('module-view-btn');
-            const tabNav = document.getElementById('tab-nav');
-            const gridContainer = document.querySelector('.grid-stack');
-
-            const users = { "admin": { password: "admin", role: "admin" }, "member": { password: "member", role: "member" } };
-            let grid = null;
-
-            // --- Core Functions ---
-            function showLoginView() {
-                loginView.classList.remove('hidden');
-                dashboardView.classList.add('hidden');
-                document.body.style.alignItems = 'center';
-            }
-
-            function showDashboardView(userRole) {
-                loginView.classList.add('hidden');
-                dashboardView.classList.remove('hidden');
-                document.body.style.alignItems = 'flex-start';
-                setupDashboard(userRole);
-
-                // Force reload of external content
-                const calendarIframe = document.getElementById('google-calendar-iframe');
-                if (calendarIframe) {
-                    calendarIframe.src = calendarIframe.src;
-                }
-
-                if (window.Juicer) {
-                    Juicer.initialize();
-                }
-            }
-
-            function setupDashboard(userRole) {
-                initializeGrid();
-                setupViewSwitcher(); // Setup listeners once
-
-                if (userRole === 'admin') {
-                    adminPanel.classList.remove('hidden');
-                    grid.enableMove(adminPanel, true);
-                    grid.enableResize(adminPanel, true);
-                } else {
-                    adminPanel.classList.add('hidden');
-                    grid.enableMove(adminPanel, false);
-                    grid.enableResize(adminPanel, false);
-                }
-
-                generateTabs(userRole);
-
-                const currentView = localStorage.getItem('dashboardView') || 'tab';
-                if (currentView === 'module') {
-                    switchToModuleView();
-                } else {
-                    switchToTabView();
-                }
-            }
-
-            function initializeGrid() {
-                if (grid) {
-                    grid.destroy();
-                }
-                grid = GridStack.init({ float: true, cellHeight: '70px' });
-                const savedLayout = localStorage.getItem('dashboardLayout');
-                if (savedLayout) {
-                    grid.load(JSON.parse(savedLayout));
-                }
-                setupGridLayoutSaving();
-            }
-
-            function generateTabs(userRole) {
-                tabNav.innerHTML = '';
-
-                // Add static tabs for external content
-                const staticTabs = [
-                    { id: 'feed', name: 'Social Feed' },
-                    { id: 'calendar', name: 'Calendar' }
-                ];
-
-                staticTabs.forEach(tab => {
-                    const button = document.createElement('button');
-                    button.textContent = tab.name;
-                    button.dataset.tabTarget = tab.id;
-                    tabNav.appendChild(button);
-                });
-
-
-                const widgets = Array.from(gridContainer.querySelectorAll('.grid-stack-item-content'));
-                let firstTabId = 'feed';
-
-                widgets.forEach(widget => {
-                    const tabId = widget.dataset.tabId;
-                    const tabName = widget.querySelector('h2')?.textContent || tabId.charAt(0).toUpperCase() + tabId.slice(1);
-
-                    if (tabId === 'admin' && userRole !== 'admin') return;
-
-                    const button = document.createElement('button');
-                    button.textContent = tabName;
-                    button.dataset.tabTarget = tabId;
-                    tabNav.appendChild(button);
-                });
-
-                // Set first visible tab as active
-                const firstButton = tabNav.querySelector(`[data-tab-target="${firstTabId}"]`);
-                if(firstButton) firstButton.classList.add('active');
-            }
-
-            // --- View Logic ---
-            function switchToTabView() {
-                tabViewBtn.classList.add('active');
-                moduleViewBtn.classList.remove('active');
-                const activeTab = tabNav.querySelector('button.active')?.dataset.tabTarget || 'feed';
-                showTab(activeTab);
-                if (grid) grid.disable(); // Keep grid static in tab view
-                localStorage.setItem('dashboardView', 'tab');
-            }
-
-            function switchToModuleView() {
-                moduleViewBtn.classList.add('active');
-                tabViewBtn.classList.remove('active');
-
-                document.getElementById('social-feed-container').classList.add('hidden');
-                document.getElementById('calendar-container').classList.add('hidden');
-                gridContainer.classList.remove('hidden');
-
-                if (grid) grid.enable();
-                // Use a timeout to ensure the grid is visible and ready before showing widgets
-                setTimeout(() => {
-                    showAllWidgets();
-                }, 50);
-                localStorage.setItem('dashboardView', 'module');
-            }
-
-            function showTab(tabId) {
-                if (!tabId) return;
-
-                const socialFeedContainer = document.getElementById('social-feed-container');
-                const calendarContainer = document.getElementById('calendar-container');
-
-                // Hide all content areas first
-                socialFeedContainer.classList.add('hidden');
-                calendarContainer.classList.add('hidden');
-                gridContainer.classList.add('hidden');
-
-                if (tabId === 'feed') {
-                    socialFeedContainer.classList.remove('hidden');
-                    if (window.Juicer && Juicer.initialize) Juicer.initialize();
-                } else if (tabId === 'calendar') {
-                    calendarContainer.classList.remove('hidden');
-                } else {
-                    gridContainer.classList.remove('hidden');
-                    if (grid) {
-                        grid.batchUpdate();
-                        grid.engine.nodes.forEach(node => {
-                            const widgetContent = node.el.querySelector('.grid-stack-item-content');
-                            const isTarget = widgetContent && widgetContent.dataset.tabId === tabId;
-                            node.el.classList.toggle('hidden', !isTarget);
-                        });
-                        grid.commit();
-                    }
-                }
-            }
-
-            function showAllWidgets() {
-                const userRole = sessionStorage.getItem('loggedInUserRole');
-                if (!grid) return;
-                grid.batchUpdate();
-                grid.engine.nodes.forEach(node => {
-                    const shouldBeHidden = (node.el.id === 'admin-panel' && userRole !== 'admin');
-                    node.el.classList.toggle('hidden', shouldBeHidden);
-                });
-                grid.commit();
-            }
-
-            // --- Event Listeners Setup ---
-            function setupViewSwitcher() {
-                tabViewBtn.addEventListener('click', switchToTabView);
-                moduleViewBtn.addEventListener('click', switchToModuleView);
-                tabNav.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'BUTTON') {
-                        const targetId = e.target.dataset.tabTarget;
-                        if (tabViewBtn.classList.contains('active')) {
-                            grid.enable(); // Re-enable to allow visibility changes
-                            showTab(targetId);
-                            grid.disable(); // Disable again to make it static
-                        }
-                        tabNav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                        e.target.classList.add('active');
-                    }
-                });
-            }
-
-            function setupGridLayoutSaving() {
-                grid.on('change', () => {
-                    const serializedData = grid.save();
-                    localStorage.setItem('dashboardLayout', JSON.stringify(serializedData));
-                });
-            }
-
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const user = users[document.getElementById('username').value];
-                if (user && user.password === document.getElementById('password').value) {
-                    sessionStorage.setItem('loggedInUserRole', user.role);
-                    showDashboardView(user.role);
-                } else {
-                    flashMessage.textContent = 'Invalid username or password.';
-                    flashMessage.classList.remove('hidden');
-                }
-            });
-
-            logoutButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (window.Juicer) {
-                    Juicer.remove();
-                }
-                sessionStorage.removeItem('loggedInUserRole');
-                showLoginView();
-            });
-
-            // --- Initial Load ---
-            const loggedInUserRole = sessionStorage.getItem('loggedInUserRole');
-            if (loggedInUserRole) {
-                showDashboardView(loggedInUserRole);
-            } else {
-                showLoginView();
-            }
-        });
+        // No script needed for basic functionality, CSS handles smooth scrolling.
     </script>
 
 </body>
