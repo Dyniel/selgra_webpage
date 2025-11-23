@@ -114,6 +114,9 @@
             margin-bottom: 1.5rem;
         }
 
+        .hidden {
+            display: none;
+        }
         p {
             line-height: 1.6;
         }
@@ -143,6 +146,7 @@
                     <li><a href="#join">Join Us</a></li>
                     <li><a href="#feed">Social Feed</a></li>
                     <li><a href="#calendar">Calendar</a></li>
+                    <li><a href="#user-panel" id="user-panel-link">Panel</a></li>
                 </ul>
             </nav>
         </div>
@@ -179,11 +183,44 @@
                 <h2>Calendar</h2>
                 <iframe id="google-calendar-iframe" src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="100%" height="600px" frameborder="0" scrolling="no"></iframe>
             </section>
+
+            <section id="user-panel" class="hidden">
+                <h2>User Panel</h2>
+                <p>This is a protected area. Welcome!</p>
+                <p>Here you can find some exclusive content for members.</p>
+            </section>
         </div>
     </main>
 
     <script>
-        // No script needed for basic functionality, CSS handles smooth scrolling.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Re-initialize Juicer feed after the page loads
+            if (window.Juicer && typeof Juicer.initialize === 'function') {
+                Juicer.initialize();
+            }
+
+            const userPanelLink = document.getElementById('user-panel-link');
+            const userPanel = document.getElementById('user-panel');
+
+            userPanelLink.addEventListener('click', function(event) {
+                // If the panel is already visible, the default anchor link behavior is enough.
+                if (!userPanel.classList.contains('hidden')) {
+                    return;
+                }
+
+                event.preventDefault(); // Prevent jumping to the (hidden) anchor
+
+                const password = prompt("Please enter the password to access the user panel:");
+
+                if (password === "123") {
+                    userPanel.classList.remove('hidden');
+                    // Manually scroll to the panel after it's revealed
+                    userPanel.scrollIntoView({ behavior: 'smooth' });
+                } else if (password !== null) { // Only show alert if user entered something wrong
+                    alert("Incorrect password.");
+                }
+            });
+        });
     </script>
 
 </body>
