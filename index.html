@@ -23,6 +23,20 @@
             --card-bg: rgba(6, 10, 40, 0.95);
         }
 
+        /* TRON mode – po zalogowaniu (member-mode) nadpisujemy paletę */
+        body.member-mode {
+            --primary-bg: #02030c;
+            --container-bg: rgba(0, 0, 0, 0.8);
+            --accent-color: #00f0ff;
+            --accent-color-hover: #76fffb;
+            --text-color: #e8feff;
+            --header-bg: rgba(0, 0, 0, 0.92);
+            --border-color: rgba(0, 240, 255, 0.75);
+            --danger-color: #ff4081;
+            --muted-color: #7ddcff;
+            --card-bg: rgba(0, 0, 0, 0.92);
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -63,7 +77,7 @@
 
         #main-header h1 {
             color: var(--accent-color);
-            text-shadow: 0 0 8px var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
             margin: 0;
             font-size: 1.4rem;
             letter-spacing: 0.04em;
@@ -84,12 +98,13 @@
             font-size: 0.9rem;
             padding: 4px 0;
             border-bottom: 2px solid transparent;
-            transition: color 0.25s, border-color 0.25s;
+            transition: color 0.25s, border-color 0.25s, text-shadow 0.25s;
         }
 
         #main-header nav a:hover {
             color: var(--accent-color-hover);
             border-bottom-color: var(--accent-color-hover);
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
         }
 
         #main-header .login-pill {
@@ -114,13 +129,17 @@
             box-shadow: 0 0 20px rgba(0, 194, 203, 0.18);
         }
 
+        body.member-mode section {
+            box-shadow: 0 0 24px rgba(0, 240, 255, 0.35);
+        }
+
         section:last-child {
             margin-bottom: 0;
         }
 
         section h2 {
             color: var(--accent-color);
-            text-shadow: 0 0 8px var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
             margin-top: 0;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
@@ -159,6 +178,11 @@
             font-size: 0.8rem;
         }
 
+        body.member-mode .hero-kpi {
+            background: radial-gradient(circle at top, rgba(0,240,255,0.12), rgba(0,0,0,0.95));
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+        }
+
         .hero-kpi strong {
             display: block;
             font-size: 1rem;
@@ -191,12 +215,13 @@
             font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
 
         .btn:hover {
             background-color: var(--accent-color);
             color: #02030a;
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.6);
         }
 
         .btn-secondary {
@@ -314,6 +339,7 @@
         body:not(.member-mode) .js-signup-btn:hover {
             background-color: transparent;
             color: var(--accent-color);
+            box-shadow: none;
         }
 
         .events-side-card {
@@ -322,6 +348,10 @@
             padding: 1rem;
             border: 1px dashed var(--border-color);
             font-size: 0.85rem;
+        }
+
+        body.member-mode .events-side-card {
+            background: radial-gradient(circle at top, rgba(0,240,255,0.12), rgba(0,0,0,0.96));
         }
 
         .events-side-card h3 {
@@ -437,6 +467,12 @@
             background-color: rgba(8, 12, 40, 0.9);
         }
 
+        body.member-mode #about,
+        body.member-mode #history,
+        body.member-mode #join {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
         #about h2, #history h2, #join h2 {
             font-size: 1.15rem;
         }
@@ -500,8 +536,8 @@
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <a href="#events" class="btn">View upcoming events</a>
-                        <a href="#user-panel" class="btn btn-secondary">Enter member mode</a>
+                        <a href="#user-panel" class="btn" id="enter-member-mode-btn">Enter member mode</a>
+                        <a href="#events" class="btn btn-secondary">View upcoming events</a>
                         <span class="hero-note">
                             Member mode is unlocked with a demo password only on this device.
                         </span>
@@ -789,6 +825,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const myEventsList = document.getElementById('my-events-list');
     const siteTitle = document.getElementById('site-title');
     const heroIntro = document.getElementById('hero-intro');
+    const enterMemberModeBtn = document.getElementById('enter-member-mode-btn');
 
     function isLoggedIn() {
         return localStorage.getItem(LOGIN_KEY) === 'true';
@@ -885,36 +922,10 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSignupButtons();
     }
 
-    // Backup original labels for buttons
-    document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
-        btn.dataset.originalLabel = btn.textContent.trim();
-    });
-
-    // Attach event handlers for event signups
-    document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            const eventId = btn.getAttribute('data-event-id');
-            const key = EVENT_PREFIX + eventId;
-
-            if (!isLoggedIn()) {
-                alert('This is available for members only. Use the Panel link and enter the member password to activate member mode.');
-                return;
-            }
-
-            const isRegistered = localStorage.getItem(key) === '1';
-            if (isRegistered) {
-                localStorage.removeItem(key);
-            } else {
-                localStorage.setItem(key, '1');
-            }
-            updateSignupButtons();
-        });
-    });
-
-    // Panel link / "login" handler
-    userPanelLink.addEventListener('click', function (event) {
+    // Wspólny handler logowania dla "Panel" i "Enter member mode"
+    function handleMemberLoginClick(event) {
         if (isLoggedIn()) {
-            // already logged in: allow normal scroll
+            // już w member mode – pozwalamy na normalny scroll do panelu
             return;
         }
 
@@ -932,7 +943,41 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             alert('Incorrect password.');
         }
+    }
+
+    // Backup oryginalnych labeli dla przycisków
+    document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
+        btn.dataset.originalLabel = btn.textContent.trim();
     });
+
+    // Eventy – zapisy / anulowanie
+    document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const eventId = btn.getAttribute('data-event-id');
+            const key = EVENT_PREFIX + eventId;
+
+            if (!isLoggedIn()) {
+                alert('This is available for members only. Use the Panel link or Enter member mode and enter the member password to activate member mode.');
+                return;
+            }
+
+            const isRegistered = localStorage.getItem(key) === '1';
+            if (isRegistered) {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, '1');
+            }
+            updateSignupButtons();
+        });
+    });
+
+    // Panel link
+    userPanelLink.addEventListener('click', handleMemberLoginClick);
+
+    // Hero button "Enter member mode" – ten sam flow
+    if (enterMemberModeBtn) {
+        enterMemberModeBtn.addEventListener('click', handleMemberLoginClick);
+    }
 
     // Save profile
     if (saveProfileBtn) {
