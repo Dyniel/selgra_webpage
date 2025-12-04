@@ -41,6 +41,17 @@
             scroll-behavior: smooth;
         }
 
+        /* Global transition na kolory/background – robi smooth przejście trybów */
+        body, section, header, .event-item, .events-side-card, .hero-kpi,
+        .internal-card, .btn, .status-pill, .login-pill {
+            transition:
+                background-color 0.7s ease,
+                color 0.7s ease,
+                border-color 0.7s ease,
+                box-shadow 0.7s ease,
+                text-shadow 0.7s ease;
+        }
+
         body {
             background-color: var(--primary-bg);
             background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="10" cy="10" r="1" fill="white"/><circle cx="50" cy="30" r="0.5" fill="white"/><circle cx="80" cy="70" r="1.2" fill="white"/><circle cx="30" cy="90" r="0.8" fill="white"/></svg>');
@@ -81,6 +92,12 @@
             margin: 0;
             font-size: 1.4rem;
             letter-spacing: 0.04em;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        #name-span {
+            white-space: nowrap;
         }
 
         #main-header nav ul {
@@ -153,6 +170,23 @@
 
         .hidden {
             display: none !important;
+        }
+
+        /* FLASH overlay – jak „zaświecenie” światła przy logowaniu */
+        .mode-flash {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at center, rgba(0,240,255,0.4), transparent 60%);
+            opacity: 0;
+            mix-blend-mode: screen;
+            transition: opacity 0.7s ease;
+            z-index: 900;
+        }
+
+        .mode-flash.active {
+            opacity: 1;
         }
 
         /* HERO */
@@ -492,9 +526,14 @@
 </head>
 <body>
 
+<div class="mode-flash" id="mode-flash"></div>
+
 <header id="main-header">
     <div class="container">
-        <h1 id="site-title">Student Microgravity Community</h1>
+        <h1 id="site-title">
+            <span id="base-title">Student Microgravity Community</span>
+            <span id="name-prefix"></span><span id="name-span"></span>
+        </h1>
         <nav>
             <ul>
                 <li><a href="#hero">Home</a></li>
@@ -565,7 +604,7 @@
             </div>
         </section>
 
-        <!-- EVENTS – HOOK NA GÓRZE -->
+        <!-- EVENTS – HOOK -->
         <section id="events">
             <h2>Upcoming activities</h2>
             <p class="section-subtitle">
@@ -677,7 +716,7 @@
             </div>
         </section>
 
-        <!-- CALENDAR PONIŻEJ WYDARZEŃ -->
+        <!-- CALENDAR -->
         <section id="calendar">
             <h2>Calendar (demo embed)</h2>
             <p class="muted">
@@ -709,7 +748,7 @@
             </ul>
         </section>
 
-        <!-- USER PANEL – WIDOCZNY PO "ZALOGOWANIU" -->
+        <!-- USER PANEL -->
         <section id="user-panel" class="hidden">
             <h2>Member mode – local demo</h2>
             <p class="muted">
@@ -761,7 +800,7 @@
             </div>
         </section>
 
-        <!-- DÓŁ STRONY: ABOUT / HISTORY / JOIN -->
+        <!-- DÓŁ STRONY -->
         <section id="about">
             <h2>About the community</h2>
             <p>
@@ -823,9 +862,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const profileStatus = document.getElementById('profile-status');
     const logoutBtn = document.getElementById('logout-btn');
     const myEventsList = document.getElementById('my-events-list');
-    const siteTitle = document.getElementById('site-title');
     const heroIntro = document.getElementById('hero-intro');
     const enterMemberModeBtn = document.getElementById('enter-member-mode-btn');
+    const modeFlash = document.getElementById('mode-flash');
+
+    const baseTitleSpan = document.getElementById('base-title');
+    const namePrefixSpan = document.getElementById('name-prefix');
+    const nameSpan = document.getElementById('name-span');
+
+    let typingTimeout = null;
 
     function isLoggedIn() {
         return localStorage.getItem(LOGIN_KEY) === 'true';
@@ -895,54 +940,79 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function triggerFlash() {
+        if (!modeFlash) return;
+        modeFlash.classList.add('active');
+        setTimeout(() => modeFlash.classList.remove('active'), 350);
+    }
+
+    function updateHeroTextForMode() {
+        if (isLoggedIn()) {
+            heroIntro.textContent =
+                'You are currently viewing the member mode PoC: event sign-ups are active, ' +
+                'internal resources are visible and your profile data is stored only in this browser.';
+        } else {
+            heroIntro.textContent =
+                'This page is a proof-of-concept for a student microgravity community portal. ' +
+                'Guests can see what is happening; members, after entering a simple password, unlock sign-ups, ' +
+                'internal resources and a personalised view – all implemented client-side and hostable on GitHub Pages.';
+        }
+    }
+
+    // Typing effect for name in header
+    function typeHeaderName(name) {
+        if (!nameSpan || !baseTitleSpan || !namePrefixSpan) return;
+
+        // Stop previous typing if running
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
+            typingTimeout = null;
+        }
+
+        nameSpan.textContent = '';
+        if (!name) {
+            namePrefixSpan.textContent = '';
+            return;
+        }
+
+        namePrefixSpan.textContent = ' – ';
+        const chars = name.split('');
+        let idx = 0;
+
+        function step() {
+            if (idx <= chars.length) {
+                nameSpan.textContent = chars.slice(0, idx).join('');
+                idx += 1;
+                typingTimeout = setTimeout(step, 60);
+            }
+        }
+        step();
+    }
+
     function enableMemberMode() {
         body.classList.add('member-mode');
         userPanel.classList.remove('hidden');
 
         const name = getDisplayName();
         if (name) {
-            displayNameInput.value = name;
-            siteTitle.textContent = 'Student Microgravity Community – ' + name;
+            if (displayNameInput) displayNameInput.value = name;
+            // Animowany dopisek nazwy
+            typeHeaderName(name);
+        } else {
+            typeHeaderName('');
         }
 
-        heroIntro.textContent =
-            'You are currently viewing the member mode PoC: event sign-ups are active, ' +
-            'internal resources are visible and your profile data is stored only in this browser.';
+        updateHeroTextForMode();
+        triggerFlash();
         updateSignupButtons();
     }
 
     function disableMemberMode() {
         body.classList.remove('member-mode');
         userPanel.classList.add('hidden');
-        siteTitle.textContent = 'Student Microgravity Community';
-        heroIntro.textContent =
-            'This page is a proof-of-concept for a student microgravity community portal. ' +
-            'Guests can see what is happening; members, after entering a simple password, unlock sign-ups, ' +
-            'internal resources and a personalised view – all implemented client-side and hostable on GitHub Pages.';
+        updateHeroTextForMode();
+        // Nie kasujemy nazwy z headera – to możesz zmienić, jeśli chcesz
         updateSignupButtons();
-    }
-
-    // Wspólny handler logowania dla "Panel" i "Enter member mode"
-    function handleMemberLoginClick(event) {
-        if (isLoggedIn()) {
-            // już w member mode – pozwalamy na normalny scroll do panelu
-            return;
-        }
-
-        event.preventDefault();
-        const password = prompt('Enter member password (demo):');
-
-        if (password === null) {
-            return;
-        }
-
-        if (password === PASSWORD) {
-            setLoggedIn(true);
-            enableMemberMode();
-            userPanel.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            alert('Incorrect password.');
-        }
     }
 
     // Backup oryginalnych labeli dla przycisków
@@ -971,10 +1041,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Wspólny handler logowania dla "Panel" i "Enter member mode"
+    function handleMemberLoginClick(event) {
+        if (isLoggedIn()) {
+            // już w member mode – pozwalamy na normalny scroll do panelu
+            return;
+        }
+
+        event.preventDefault();
+        const password = prompt('Enter member password (demo):');
+
+        if (password === null) {
+            return;
+        }
+
+        if (password === PASSWORD) {
+            setLoggedIn(true);
+            enableMemberMode();
+            userPanel.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert('Incorrect password.');
+        }
+    }
+
     // Panel link
     userPanelLink.addEventListener('click', handleMemberLoginClick);
 
-    // Hero button "Enter member mode" – ten sam flow
+    // Hero button "Enter member mode"
     if (enterMemberModeBtn) {
         enterMemberModeBtn.addEventListener('click', handleMemberLoginClick);
     }
@@ -984,10 +1077,11 @@ document.addEventListener('DOMContentLoaded', function () {
         saveProfileBtn.addEventListener('click', function () {
             const name = (displayNameInput.value || '').trim();
             setDisplayName(name);
-            if (name) {
-                siteTitle.textContent = 'Student Microgravity Community – ' + name;
+
+            if (isLoggedIn()) {
+                typeHeaderName(name);
             } else {
-                siteTitle.textContent = 'Student Microgravity Community';
+                typeHeaderName('');
             }
 
             profileStatus.classList.remove('hidden');
