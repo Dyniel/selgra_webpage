@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SELGRA PoC</title>
+    <title>Student Microgravity Community – PoC</title>
     <style>
         @keyframes move-stars {
             from { background-position: 0 0; }
@@ -11,15 +11,16 @@
         }
 
         :root {
-            --primary-bg: #0a0e23;
+            --primary-bg: #050714;
             --container-bg: rgba(12, 20, 69, 0.7);
             --accent-color: #00c2cb;
             --accent-color-hover: #4dd0e1;
             --text-color: #e0e0e0;
-            --header-bg: rgba(12, 20, 69, 0.9);
+            --header-bg: rgba(5, 8, 35, 0.96);
             --border-color: rgba(0, 194, 203, 0.5);
             --danger-color: #ff6b6b;
             --muted-color: #9e9e9e;
+            --card-bg: rgba(6, 10, 40, 0.95);
         }
 
         html {
@@ -37,7 +38,7 @@
         }
 
         .container {
-            max-width: 960px;
+            max-width: 1120px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
@@ -50,7 +51,7 @@
             background-color: var(--header-bg);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
         }
 
         #main-header .container {
@@ -64,7 +65,8 @@
             color: var(--accent-color);
             text-shadow: 0 0 8px var(--accent-color);
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            letter-spacing: 0.04em;
         }
 
         #main-header nav ul {
@@ -72,17 +74,17 @@
             padding: 0;
             list-style: none;
             display: flex;
-            gap: 1.5rem;
+            gap: 1.1rem;
         }
 
         #main-header nav a {
             color: var(--text-color);
             text-decoration: none;
-            font-weight: bold;
-            font-size: 0.95rem;
-            padding: 5px 0;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 4px 0;
             border-bottom: 2px solid transparent;
-            transition: color 0.3s, border-color 0.3s;
+            transition: color 0.25s, border-color 0.25s;
         }
 
         #main-header nav a:hover {
@@ -90,18 +92,26 @@
             border-bottom-color: var(--accent-color-hover);
         }
 
+        #main-header .login-pill {
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid var(--accent-color);
+            font-size: 0.8rem;
+            margin-left: 0.3rem;
+        }
+
         main .container {
             padding-top: 2rem;
-            padding-bottom: 2rem;
+            padding-bottom: 3rem;
         }
 
         section {
             background-color: var(--container-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(0, 194, 203, 0.2);
+            margin-bottom: 1.8rem;
+            box-shadow: 0 0 20px rgba(0, 194, 203, 0.18);
         }
 
         section:last-child {
@@ -115,6 +125,7 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
+            font-size: 1.3rem;
         }
 
         p {
@@ -125,23 +136,114 @@
             display: none !important;
         }
 
-        /* Juicer.io feed specific styles for dark theme */
-        .juicer-feed { background-color: transparent !important; }
-        .juicer-feed .j-header { display: none !important; }
-        .juicer-feed .j-post {
-            background-color: rgba(26, 35, 58, 0.8) !important;
-            border-radius: 8px !important;
-            border: 1px solid var(--border-color) !important;
-            color: var(--text-color) !important;
+        /* HERO */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+            gap: 1.8rem;
+            align-items: center;
         }
-        .juicer-feed .j-post a { color: var(--accent-color) !important; }
 
-        /* Event list / gating */
+        .hero-kpi-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.4rem;
+        }
+
+        .hero-kpi {
+            background: linear-gradient(145deg, rgba(8,16,60,0.9), rgba(3,10,35,0.9));
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+        }
+
+        .hero-kpi strong {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .hero-actions {
+            margin-top: 1.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .hero-note {
+            font-size: 0.8rem;
+            color: var(--muted-color);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.55rem 1.3rem;
+            border-radius: 999px;
+            border: 1px solid var(--accent-color);
+            background-color: transparent;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-color);
+            color: #02030a;
+        }
+
+        .btn-secondary {
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 194, 203, 0.12);
+            color: var(--text-color);
+        }
+
+        .btn-danger {
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-color);
+            color: #02030a;
+        }
+
+        /* EVENTS */
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--muted-color);
+            margin-top: -0.9rem;
+            margin-bottom: 1.3rem;
+        }
+
+        .event-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid, .event-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .event-list {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 0.5rem;
         }
 
         .event-item {
@@ -149,27 +251,28 @@
             flex-direction: column;
             gap: 0.3rem;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
-            background-color: rgba(6, 10, 40, 0.9);
+            background-color: var(--card-bg);
         }
 
         .event-title {
             font-weight: 600;
+            font-size: 0.98rem;
         }
 
         .event-meta {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--muted-color);
         }
 
         .badge {
             display: inline-block;
             font-size: 0.7rem;
-            padding: 0.15rem 0.4rem;
+            padding: 0.15rem 0.45rem;
             border-radius: 999px;
             border: 1px solid var(--border-color);
-            margin-right: 0.4rem;
+            margin-right: 0.3rem;
         }
 
         .badge-locked {
@@ -190,43 +293,8 @@
             flex-wrap: wrap;
         }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1.1rem;
-            border-radius: 999px;
-            border: 1px solid var(--accent-color);
-            background-color: transparent;
-            color: var(--accent-color);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-color);
-            color: #02030a;
-        }
-
-        .btn-secondary {
-            border-color: var(--border-color);
-            color: var(--text-color);
-        }
-
-        .btn-danger {
-            border-color: var(--danger-color);
-            color: var(--danger-color);
-        }
-
-        .btn-danger:hover {
-            background-color: var(--danger-color);
-            color: #02030a;
-        }
-
         .event-locked-text {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--muted-color);
         }
 
@@ -248,14 +316,50 @@
             color: var(--accent-color);
         }
 
-        /* User panel */
-        .user-panel-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-            gap: 1.5rem;
+        .events-side-card {
+            background: rgba(2, 8, 32, 0.96);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px dashed var(--border-color);
+            font-size: 0.85rem;
         }
 
-        @media (max-width: 768px) {
+        .events-side-card h3 {
+            margin-top: 0;
+            font-size: 0.98rem;
+            margin-bottom: 0.6rem;
+            color: var(--accent-color-hover);
+        }
+
+        /* CALENDAR */
+        #calendar iframe {
+            border-radius: 8px;
+        }
+
+        .muted {
+            font-size: 0.85rem;
+            color: var(--muted-color);
+        }
+
+        /* SOCIAL FEED (Juicer dark tweak) */
+        .juicer-feed { background-color: transparent !important; }
+        .juicer-feed .j-header { display: none !important; }
+        .juicer-feed .j-post {
+            background-color: var(--card-bg) !important;
+            border-radius: 10px !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-color) !important;
+        }
+        .juicer-feed .j-post a { color: var(--accent-color) !important; }
+
+        /* USER PANEL */
+        .user-panel-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 2.1fr) minmax(0, 2.4fr);
+            gap: 1.6rem;
+        }
+
+        @media (max-width: 860px) {
             .user-panel-grid {
                 grid-template-columns: 1fr;
             }
@@ -267,7 +371,7 @@
 
         .field-group label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 0.86rem;
             margin-bottom: 0.3rem;
         }
 
@@ -276,7 +380,7 @@
             padding: 0.45rem 0.6rem;
             border-radius: 6px;
             border: 1px solid var(--border-color);
-            background-color: rgba(4, 7, 30, 0.9);
+            background-color: rgba(4, 7, 30, 0.95);
             color: var(--text-color);
             font-size: 0.9rem;
         }
@@ -284,11 +388,6 @@
         .field-group input:focus {
             outline: none;
             border-color: var(--accent-color);
-        }
-
-        .muted {
-            font-size: 0.85rem;
-            color: var(--muted-color);
         }
 
         .status-pill {
@@ -299,7 +398,7 @@
             border-radius: 999px;
             padding: 0.2rem 0.6rem;
             border: 1px solid var(--border-color);
-            margin-top: 0.3rem;
+            margin-top: 0.5rem;
         }
 
         .status-dot {
@@ -308,21 +407,66 @@
             border-radius: 999px;
             background-color: #4caf50;
         }
+
+        #my-events-list {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+        }
+
+        #my-events-list li {
+            margin-bottom: 0.2rem;
+        }
+
+        .internal-card {
+            border-radius: 10px;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 194, 203, 0.25);
+            margin-bottom: 0.9rem;
+            font-size: 0.86rem;
+        }
+
+        .internal-card h4 {
+            margin-top: 0;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        /* FOOTER / BOTTOM SECTIONS */
+        #about, #history, #join {
+            background-color: rgba(8, 12, 40, 0.9);
+        }
+
+        #about h2, #history h2, #join h2 {
+            font-size: 1.15rem;
+        }
+
+        @media (max-width: 640px) {
+            #main-header .container {
+                padding: 0 1rem;
+            }
+            #main-header nav ul {
+                gap: 0.7rem;
+            }
+            #main-header nav a {
+                font-size: 0.82rem;
+            }
+        }
     </style>
 </head>
 <body>
 
 <header id="main-header">
     <div class="container">
-        <h1 id="site-title">SELGRA</h1>
+        <h1 id="site-title">Student Microgravity Community</h1>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#history">History</a></li>
-                <li><a href="#join">Join Us</a></li>
-                <li><a href="#feed">Social Feed</a></li>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#events">Events</a></li>
                 <li><a href="#calendar">Calendar</a></li>
-                <li><a href="#user-panel" id="user-panel-link">Panel</a></li>
+                <li><a href="#feed">Social</a></li>
+                <li><a href="#user-panel" id="user-panel-link">Panel<span class="login-pill">member mode</span></a></li>
+                <li><a href="#about">About</a></li>
             </ul>
         </nav>
     </div>
@@ -330,49 +474,198 @@
 
 <main>
     <div class="container">
-        <section id="about">
-            <h2>About SELGRA</h2>
-            <p id="about-intro">
-                SELGRA is the student chapter of the European Low Gravity Research Association aiming to be
-                the point of reference for gravity-related students all over Europe. SELGRA works hard to
-                organise and support outreach activities as well as to support its members to present and promote their research.
-            </p>
-            <p>
-                SELGRA is a European student association under the umbrella of ELGRA, committed to:
-                Divulge gravity related research, Support students, and Providing students who join SELGRA with
-                an extended network of experts in the field of gravity research.
-            </p>
+        <!-- HERO / LANDING -->
+        <section id="hero">
+            <div class="hero-grid">
+                <div>
+                    <h2 id="hero-title">Microgravity projects, by students – for students</h2>
+                    <p id="hero-intro">
+                        This page is a proof-of-concept for a student microgravity community portal.
+                        Guests can see what is happening; members, after entering a simple password,
+                        unlock sign-ups, internal resources and a personalised view – all implemented
+                        client-side and hostable on GitHub Pages.
+                    </p>
+                    <div class="hero-kpi-row">
+                        <div class="hero-kpi">
+                            <strong>3×</strong>
+                            ESA-style student projects in the pipeline (parabolic flight, drop tower, CubeSat).
+                        </div>
+                        <div class="hero-kpi">
+                            <strong>10+</strong>
+                            partner labs and supervisors supporting student microgravity research.
+                        </div>
+                        <div class="hero-kpi">
+                            <strong>Open</strong>
+                            to any motivated student – engineering, life sciences, medicine, physics.
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#events" class="btn">View upcoming events</a>
+                        <a href="#user-panel" class="btn btn-secondary">Enter member mode</a>
+                        <span class="hero-note">
+                            Member mode is unlocked with a demo password only on this device.
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="internal-card">
+                        <h4>What this PoC demonstrates</h4>
+                        <ul class="muted">
+                            <li>Guest vs member view, with a simple password gate (no backend).</li>
+                            <li>Event list where guests see content but cannot register.</li>
+                            <li>Local-only profile and registrations stored in the browser.</li>
+                            <li>Compatibility with static hosting (e.g. GitHub Pages).</li>
+                        </ul>
+                    </div>
+                    <div class="internal-card">
+                        <h4>Typical student microgravity journey</h4>
+                        <p class="muted">
+                            Discover opportunities → Join open calls → Form a team →
+                            Co-design experiment with a supervisor → Apply to ESA-style programmes →
+                            Execute hardware tests and campaigns → Share results with the community.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="history">
-            <h2>History</h2>
-            <p>
-                The idea of forming a student ELGRA group was first outlined by Javier Medina, Carole Leguy,
-                and Andrew Winnard in September 2013 when they invited all students attending the ELGRA Symposium
-                held at the Vatican City for a discussion.
+        <!-- EVENTS – HOOK NA GÓRZE -->
+        <section id="events">
+            <h2>Upcoming activities</h2>
+            <p class="section-subtitle">
+                Everyone can see what is planned. Only members in “member mode” can interact with events and mark local registrations.
             </p>
-            <p>
-                It was clear that ELGRA would benefit from having a stronger student base, and that there should be
-                a platform at the student level for all gravity-related research in Europe. This association would
-                thus serve as the nexus of discussions, information, news and opportunities for all students within
-                the scientific community. With this mission in mind, SELGRA (Student ELGRA) was established.
-            </p>
+            <div class="event-layout">
+                <div>
+                    <div class="event-list" aria-label="Sample community events">
+                        <div class="event-item">
+                            <div class="event-title">Intro to Microgravity Research – Open Meeting</div>
+                            <div class="event-meta">Online · 15 January 2026 · 18:00–19:30 CET</div>
+                            <div>
+                                <span class="badge badge-open">Open</span>
+                                <span class="badge badge-open">Students</span>
+                                <span class="badge">English</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn js-signup-btn" data-event-id="intro-mg">
+                                    Sign up for this event
+                                </button>
+                                <span class="event-locked-text member-only-hint">
+                                    Members only – log in to activate sign-ups.
+                                </span>
+                                <span class="event-locked-text js-signup-status" data-event-id="intro-mg-status"></span>
+                            </div>
+                        </div>
+
+                        <div class="event-item">
+                            <div class="event-title">Internal Lab Call – Microgravity Project Pitches</div>
+                            <div class="event-meta">Online · 28 January 2026 · 19:00–20:30 CET</div>
+                            <div>
+                                <span class="badge badge-locked">Members only</span>
+                                <span class="badge">Project pitches</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn js-signup-btn" data-event-id="lab-call">
+                                    Apply for a pitching slot
+                                </button>
+                                <span class="event-locked-text member-only-hint">
+                                    Members only – log in to apply.
+                                </span>
+                                <span class="event-locked-text js-signup-status" data-event-id="lab-call-status"></span>
+                            </div>
+                        </div>
+
+                        <div class="event-item">
+                            <div class="event-title">Hands-on: Designing a Parabolic Flight Experiment</div>
+                            <div class="event-meta">Hybrid · 10 February 2026 · 17:00–20:00 CET</div>
+                            <div>
+                                <span class="badge badge-locked">Members only</span>
+                                <span class="badge">Workshop</span>
+                                <span class="badge">Engineering focus</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn js-signup-btn" data-event-id="parabolic-workshop">
+                                    Reserve your seat
+                                </button>
+                                <span class="event-locked-text member-only-hint">
+                                    Members only – log in to reserve.
+                                </span>
+                                <span class="event-locked-text js-signup-status" data-event-id="parabolic-workshop-status"></span>
+                            </div>
+                        </div>
+
+                        <div class="event-item">
+                            <div class="event-title">Microgravity & Space Medicine Journal Club</div>
+                            <div class="event-meta">Online · monthly · 60 minutes</div>
+                            <div>
+                                <span class="badge badge-open">Open to interested students</span>
+                                <span class="badge">Space medicine</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn js-signup-btn" data-event-id="journal-club">
+                                    Join journal club
+                                </button>
+                                <span class="event-locked-text member-only-hint">
+                                    Members only – log in to join.
+                                </span>
+                                <span class="event-locked-text js-signup-status" data-event-id="journal-club-status"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="events-side-card">
+                        <h3>Funding & calls overview (demo)</h3>
+                        <p class="muted">
+                            In a full version, this block would aggregate open calls and programmes relevant to student
+                            microgravity projects, such as:
+                        </p>
+                        <ul class="muted">
+                            <li>ESA Academy hands-on programmes (parabolic flights, drop towers, CubeSats).</li>
+                            <li>National student grant schemes for hardware and travel.</li>
+                            <li>University-level “learning through research” funding lines.</li>
+                        </ul>
+                        <p class="muted">
+                            In this PoC the section is static, but the member mode shows how a personalised view could look.
+                        </p>
+                    </div>
+                    <div class="events-side-card">
+                        <h3>Example member-only slots</h3>
+                        <ul class="muted">
+                            <li>Closed coordination calls before proposal submission.</li>
+                            <li>Hardware integration sessions with lab access.</li>
+                            <li>Peer-review of experiment concepts by senior students.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="join">
-            <h2>Become a Member</h2>
-            <p>
-                SELGRA offers you a complete set of information related to microgravity research regarding:
-                Internships, PhD positions, Masters and Master Scholarships, ESA Education Projects, and much more.
+        <!-- CALENDAR PONIŻEJ WYDARZEŃ -->
+        <section id="calendar">
+            <h2>Calendar (demo embed)</h2>
+            <p class="muted">
+                Any Google Calendar can be embedded here. Guests see the same events as members,
+                but interactions (e.g. registration, notes, links to internal documents) are unlocked in member mode.
             </p>
-            <p>
-                Join SELGRA by following the steps on the official ELGRA website. Be social! Join our Facebook,
-                Twitter, and Instagram.
-            </p>
+            <iframe
+                id="google-calendar-iframe"
+                src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=Europe%2FWarsaw"
+                style="border: 0"
+                width="100%"
+                height="420"
+                frameborder="0"
+                scrolling="no">
+            </iframe>
         </section>
 
+        <!-- SOCIAL FEED -->
         <section id="feed">
-            <h2>Social Feed</h2>
+            <h2>Social feed (placeholder)</h2>
+            <p class="muted">
+                A combined feed from X / LinkedIn / Instagram or a dedicated aggregator can be embedded here
+                to keep potential members updated without requiring any login.
+            </p>
             <script src="https://assets.juicer.io/embed-amd.js" type="text/javascript"></script>
             <link href="https://assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
             <ul class="juicer-feed" data-feed-id="juicer">
@@ -380,125 +673,111 @@
             </ul>
         </section>
 
-        <section id="calendar">
-            <h2>Calendar</h2>
+        <!-- USER PANEL – WIDOCZNY PO "ZALOGOWANIU" -->
+        <section id="user-panel" class="hidden">
+            <h2>Member mode – local demo</h2>
             <p class="muted">
-                Everyone can see what SELGRA is doing. Online registration and member-only slots
-                are available after entering the member password.
+                This panel exists only in your browser. It uses <code>localStorage</code> to keep your name and local
+                registrations. No data leaves your device – it is safe to host on GitHub Pages.
             </p>
-            <iframe
-                id="google-calendar-iframe"
-                src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FNew_York"
-                style="border: 0"
-                width="100%"
-                height="400"
-                frameborder="0"
-                scrolling="no">
-            </iframe>
-
-            <div class="event-list" aria-label="Sample SELGRA events">
-                <div class="event-item">
-                    <div class="event-title">Intro to Microgravity Research – Open Meeting</div>
-                    <div class="event-meta">Online · 15 January 2026 · 18:00–19:30 CET</div>
-                    <div>
-                        <span class="badge badge-open">Open</span>
-                        <span class="badge badge-open">Students</span>
+            <div class="user-panel-grid">
+                <div>
+                    <div class="internal-card">
+                        <h4>Basic profile</h4>
+                        <div class="field-group">
+                            <label for="display-name-input">Preferred name (for the header and internal views)</label>
+                            <input id="display-name-input" type="text" placeholder="e.g. Magos">
+                        </div>
+                        <button class="btn btn-secondary" id="save-profile-btn">Save profile locally</button>
+                        <div class="status-pill hidden" id="profile-status">
+                            <span class="status-dot"></span>
+                            <span>Profile saved in this browser</span>
+                        </div>
                     </div>
-                    <div class="event-actions">
-                        <button class="btn js-signup-btn" data-event-id="intro-mg">
-                            Sign up for this event
-                        </button>
-                        <span class="event-locked-text member-only-hint">
-                            Members only – log in to activate sign-ups.
-                        </span>
-                        <span class="event-locked-text js-signup-status" data-event-id="intro-mg-status"></span>
+
+                    <div class="internal-card">
+                        <h4>Member mode status</h4>
+                        <p class="muted">
+                            Member mode is gated only by a simple password and a local flag in this PoC.
+                            In a production system, this would be replaced with proper authentication and roles.
+                        </p>
+                        <button class="btn btn-danger" id="logout-btn">Exit member mode</button>
                     </div>
                 </div>
-
-                <div class="event-item">
-                    <div class="event-title">SELGRA Members’ Lab Call – Project Pitches</div>
-                    <div class="event-meta">Online · 28 January 2026 · 19:00–20:30 CET</div>
-                    <div>
-                        <span class="badge badge-locked">Members only</span>
-                        <span class="badge">Microgravity projects</span>
+                <div>
+                    <div class="internal-card">
+                        <h4>My registrations (local only)</h4>
+                        <p class="muted">
+                            Below you see which sample events you are marked as registered for on this device.
+                            Try toggling the buttons in the Events section to see this list update.
+                        </p>
+                        <ul id="my-events-list" class="muted"></ul>
                     </div>
-                    <div class="event-actions">
-                        <button class="btn js-signup-btn" data-event-id="lab-call">
-                            Apply for a pitching slot
-                        </button>
-                        <span class="event-locked-text member-only-hint">
-                            Members only – log in to apply.
-                        </span>
-                        <span class="event-locked-text js-signup-status" data-event-id="lab-call-status"></span>
-                    </div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-title">Hands-on Session: Designing a Parabolic Flight Experiment</div>
-                    <div class="event-meta">Hybrid · 10 February 2026 · 17:00–20:00 CET</div>
-                    <div>
-                        <span class="badge badge-locked">Members only</span>
-                        <span class="badge">Workshop</span>
-                    </div>
-                    <div class="event-actions">
-                        <button class="btn js-signup-btn" data-event-id="parabolic-workshop">
-                            Reserve your seat
-                        </button>
-                        <span class="event-locked-text member-only-hint">
-                            Members only – log in to reserve.
-                        </span>
-                        <span class="event-locked-text js-signup-status" data-event-id="parabolic-workshop-status"></span>
+                    <div class="internal-card">
+                        <h4>Internal resources (mock)</h4>
+                        <ul class="muted">
+                            <li>Link: “Microgravity experiment design checklist (PDF)” – internal only.</li>
+                            <li>Link: “Template: ESA-style experiment proposal (DOCX)” – internal only.</li>
+                            <li>Link: “Hardware inventory and booking spreadsheet” – internal only.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="user-panel" class="hidden">
-            <h2>My SELGRA</h2>
-            <div class="user-panel-grid">
-                <div>
-                    <h3>Basic profile</h3>
-                    <p class="muted">
-                        This data is stored only in your browser (localStorage) and is used to personalise this PoC.
-                    </p>
-                    <div class="field-group">
-                        <label for="display-name-input">Preferred name</label>
-                        <input id="display-name-input" type="text" placeholder="e.g. Magos">
-                    </div>
-                    <button class="btn btn-secondary" id="save-profile-btn">Save profile</button>
-                    <div class="status-pill hidden" id="profile-status">
-                        <span class="status-dot"></span>
-                        <span>Profile saved locally</span>
-                    </div>
+        <!-- DÓŁ STRONY: ABOUT / HISTORY / JOIN -->
+        <section id="about">
+            <h2>About the community</h2>
+            <p>
+                This portal concept is built around a simple idea: students should have a clear entry point to
+                microgravity research opportunities, and a protected space where active members can coordinate
+                real projects with supervisors and partner institutions.
+            </p>
+            <p>
+                The structure shown here is intentionally minimal: it is meant to be clonable, hostable on
+                GitHub Pages and extendable with proper authentication, databases and dashboards when needed.
+            </p>
+        </section>
 
-                    <div style="margin-top:1.5rem;">
-                        <button class="btn btn-danger" id="logout-btn">Log out (clear member mode)</button>
-                    </div>
-                </div>
-                <div>
-                    <h3>My registrations (local demo)</h3>
-                    <p class="muted">
-                        Below you see which sample events you’re marked as registered for on this device.
-                        No data is sent anywhere – GitHub Pages, no backend.
-                    </p>
-                    <ul id="my-events-list" class="muted"></ul>
-                </div>
-            </div>
+        <section id="history">
+            <h2>Background and context</h2>
+            <p>
+                Student microgravity projects have historically grown around isolated teams and one-off calls.
+                A dedicated student community portal makes it easier to:
+            </p>
+            <ul>
+                <li>Archive knowledge from past campaigns and experiments.</li>
+                <li>Onboard new students with clear paths towards concrete projects.</li>
+                <li>Expose local initiatives to an international network of mentors and partners.</li>
+            </ul>
+        </section>
+
+        <section id="join">
+            <h2>How students would typically join</h2>
+            <p>
+                In a full deployment, this section would contain direct application forms, eligibility criteria
+                and information on how to combine studies with project work. In this PoC it simply marks where
+                that content would live and how it would look in the overall layout.
+            </p>
+            <p class="muted">
+                Example pipeline: short motivation form → informal interview with senior students →
+                assignment to a project group → access to internal resources → hands-on work on an experiment.
+            </p>
         </section>
     </div>
 </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Re-initialize Juicer feed after the page loads (if available)
+    // Juicer init if present
     if (window.Juicer && typeof Juicer.initialize === 'function') {
         Juicer.initialize();
     }
 
     const PASSWORD = '123';
-    const LOGIN_KEY = 'selgraLoggedIn';
-    const NAME_KEY = 'selgraDisplayName';
-    const EVENT_PREFIX = 'selgraEvent_';
+    const LOGIN_KEY = 'microgravityLoggedIn';
+    const NAME_KEY = 'microgravityDisplayName';
+    const EVENT_PREFIX = 'microgravityEvent_';
 
     const body = document.body;
     const userPanelLink = document.getElementById('user-panel-link');
@@ -509,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoutBtn = document.getElementById('logout-btn');
     const myEventsList = document.getElementById('my-events-list');
     const siteTitle = document.getElementById('site-title');
-    const aboutIntro = document.getElementById('about-intro');
+    const heroIntro = document.getElementById('hero-intro');
 
     function isLoggedIn() {
         return localStorage.getItem(LOGIN_KEY) === 'true';
@@ -552,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Update "My events" list in the panel
+        // Update "My events" list
         if (myEventsList) {
             const registeredEvents = [];
             document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
@@ -586,28 +865,27 @@ document.addEventListener('DOMContentLoaded', function () {
         const name = getDisplayName();
         if (name) {
             displayNameInput.value = name;
-            siteTitle.textContent = 'SELGRA – ' + name;
+            siteTitle.textContent = 'Student Microgravity Community – ' + name;
         }
 
-        aboutIntro.textContent =
-            'SELGRA is building a student microgravity community. You are currently viewing the member mode PoC – ' +
-            'as a logged-in user you can interact with events, keep local registrations and personalise your view.';
-
+        heroIntro.textContent =
+            'You are currently viewing the member mode PoC: event sign-ups are active, ' +
+            'internal resources are visible and your profile data is stored only in this browser.';
         updateSignupButtons();
     }
 
     function disableMemberMode() {
         body.classList.remove('member-mode');
         userPanel.classList.add('hidden');
-        siteTitle.textContent = 'SELGRA';
-        aboutIntro.textContent =
-            'SELGRA is the student chapter of the European Low Gravity Research Association aiming to be ' +
-            'the point of reference for gravity-related students all over Europe. SELGRA works hard to ' +
-            'organise and support outreach activities as well as to support its members to present and promote their research.';
+        siteTitle.textContent = 'Student Microgravity Community';
+        heroIntro.textContent =
+            'This page is a proof-of-concept for a student microgravity community portal. ' +
+            'Guests can see what is happening; members, after entering a simple password, unlock sign-ups, ' +
+            'internal resources and a personalised view – all implemented client-side and hostable on GitHub Pages.';
         updateSignupButtons();
     }
 
-    // Initial label backup for buttons (for proper toggle text)
+    // Backup original labels for buttons
     document.querySelectorAll('.js-signup-btn').forEach(function (btn) {
         btn.dataset.originalLabel = btn.textContent.trim();
     });
@@ -636,12 +914,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Panel link / "login" handler
     userPanelLink.addEventListener('click', function (event) {
         if (isLoggedIn()) {
-            // Already logged in: just let the browser scroll to the panel
+            // already logged in: allow normal scroll
             return;
         }
 
         event.preventDefault();
-        const password = prompt('Please enter the member password (PoC demo):');
+        const password = prompt('Enter member password (demo):');
 
         if (password === null) {
             return;
@@ -662,9 +940,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const name = (displayNameInput.value || '').trim();
             setDisplayName(name);
             if (name) {
-                siteTitle.textContent = 'SELGRA – ' + name;
+                siteTitle.textContent = 'Student Microgravity Community – ' + name;
             } else {
-                siteTitle.textContent = 'SELGRA';
+                siteTitle.textContent = 'Student Microgravity Community';
             }
 
             profileStatus.classList.remove('hidden');
@@ -677,7 +955,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Logout
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
-            if (confirm('This will leave member mode on this device. Local registrations will stay in storage unless you clear them manually. Continue?')) {
+            if (confirm('This will turn off member mode on this device. Local registrations will stay until manually cleared in your browser. Continue?')) {
                 setLoggedIn(false);
                 disableMemberMode();
             }
