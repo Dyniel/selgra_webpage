@@ -2,54 +2,45 @@
 import pytest
 from playwright.sync_api import sync_playwright, Page, expect
 import os
+import time
 
 BASE_URL = f"file://{os.getcwd()}/index.html"
 
 def run_verification(page: Page):
-    """Reusable verification steps."""
+    """Reusable verification steps for the new single-page layout."""
     page.goto(BASE_URL)
 
-    # 1. Login
-    page.locator("#username").fill("member")
-    page.locator("#password").fill("member")
-    page.locator("button[type='submit']").click()
+    # 1. Verify the header is visible
+    header = page.locator("#main-header")
+    expect(header).to_be_visible()
 
-    # Wait for dashboard to be visible
-    expect(page.locator("#dashboard-view")).to_be_visible()
+    # 2. Verify main sections are present and user panel is hidden
+    expect(page.locator("section#about")).to_be_visible()
+    expect(page.locator("section#user-panel")).to_be_hidden()
 
-    # 2. Verify Tab View is active and content is visible
-    expect(page.locator("#tab-view-btn")).to_have_class("active")
+    # 3. Test password-protected panel
+    panel_link = page.locator("nav a[href='#user-panel']")
 
-    # Check that the first tab's content is visible
-    # The default first tab is "Social Feed"
-    expect(page.locator("#social-feed-container")).to_be_visible()
+    # Use a dialog handler to interact with the prompt
+    # Test wrong password first
+    page.once("dialog", lambda dialog: dialog.dismiss())
+    panel_link.click()
+    expect(page.locator("section#user-panel")).to_be_hidden() # It should still be hidden
 
-    # Check that another tab's content is hidden
-    expect(page.locator("#calendar-container")).to_be_hidden()
+    # Test correct password
+    page.once("dialog", lambda dialog: dialog.accept("123"))
+    panel_link.click()
 
+    # Wait for the panel to become visible after entering the correct password
+    expect(page.locator("section#user-panel")).to_be_visible()
+
+    # Give it a moment for the scroll to finish
+    time.sleep(1)
+
+    # 4. Take a screenshot of the new layout with the user panel visible
     os.makedirs("verification_screenshots", exist_ok=True)
-    page.screenshot(path="verification_screenshots/01_tab_view_initial.png")
+    page.screenshot(path="verification_screenshots/redesigned_page_with_panel.png", full_page=True)
 
-    # 3. Switch to another tab
-    page.locator("button[data-tab-target='calendar']").click()
-
-    # Verify the new tab's content is visible
-    expect(page.locator("#social-feed-container")).to_be_hidden()
-    expect(page.locator("#calendar-container")).to_be_visible()
-    page.screenshot(path="verification_screenshots/02_tab_view_switched.png")
-
-    # 4. Switch to Module View
-    page.locator("#module-view-btn").click()
-    expect(page.locator("#module-view-btn")).to_have_class("active")
-
-    # Verify all widgets are now visible
-    for item in page.locator(".grid-stack-item").all():
-        if item.get_attribute("id") != "admin-panel":
-             expect(item).not_to_have_class("hidden")
-
-    expect(page.locator("#admin-panel")).to_be_hidden()
-
-    page.screenshot(path="verification_screenshots/03_module_view.png")
 
 def test_dashboard_flow():
     with sync_playwright() as p:
@@ -59,10 +50,9 @@ def test_dashboard_flow():
         browser.close()
 
 if __name__ == "__main__":
-    # This allows running the script directly for debugging
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False, slow_mo=500)
         page = browser.new_page()
         run_verification(page)
-        print("Verification complete. Check the 'verification_screenshots' folder.")
+        print("Verification complete. Check 'verification_screenshots' for 'redesigned_page_with_panel.png'.")
         browser.close()
