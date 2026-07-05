@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELGRA | Student chapter of the European Low Gravity Research Association</title>
+    <meta name="description" content="Static SELGRA concept mockup with public pages and demo Member Mode.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="#home" aria-label="SELGRA home">
+          <span class="brand-mark">S</span>
+          <span>
+            <strong>SELGRA</strong>
+            <small>Student chapter of ELGRA</small>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="#home">Home</a>
+          <a href="#feed">Feed</a>
+          <a href="#events">Events</a>
+          <a href="#about">About</a>
+          <a class="member-link" href="#dashboard" data-member-link>Dashboard</a>
+          <a class="member-link" href="#professionals" data-member-link>Professionals</a>
+          <a class="member-link" href="#opportunities" data-member-link>Opportunities</a>
+          <button class="text-button" type="button" data-open-login>Member Mode</button>
+          <button class="text-button exit-button" type="button" data-exit-member>Exit Member Mode</button>
+        </div>
+      </nav>
+      <div class="mode-ribbon" data-mode-ribbon hidden>
+        <span>Member Mode Active</span>
+        <strong>Demo UI only</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home" aria-labelledby="heroTitle">
+        <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Space life sciences network</p>
+          <h1 id="heroTitle">SELGRA</h1>
+          <p class="subtitle">Student chapter of the European Low Gravity Research Association</p>
+          <p class="hero-copy">SELGRA connects students and early-career researchers interested in low gravity science, microgravity, hypergravity, space life sciences, engineering and professional development.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#feed">Explore activities</a>
+            <button class="button secondary" type="button" data-open-login>Enter Member Mode</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="feed" aria-labelledby="feedTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Public updates</p>
+          <h2 id="feedTitle">Feed / News</h2>
+          <p>A lightweight public stream mixing demo updates with selected SELGRA-related LinkedIn activity. Demo cards stay local; embeds are loaded directly from LinkedIn.</p>
+        </div>
+        <div class="feed-grid" id="feedGrid" aria-live="polite"></div>
+        <div class="linkedin-panel" aria-labelledby="linkedinTitle">
+          <div class="inline-heading">
+            <p class="eyebrow">From LinkedIn</p>
+            <h3 id="linkedinTitle">SELGRA in the gravity research network</h3>
+          </div>
+          <div class="linkedin-grid">
+            <article class="linkedin-embed">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7447673428372938753" title="LinkedIn post about SELGRA and SSEA Munich 2026" loading="lazy" allowfullscreen></iframe>
+              <a class="embed-fallback" href="https://www.linkedin.com/posts/jakob-mali_ssea-munich-2026-5th-symposium-on-space-activity-7447673428372938753-Y8NN" target="_blank" rel="noreferrer">Open LinkedIn post</a>
+            </article>
+            <article class="linkedin-embed">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7238921049453510656" title="LinkedIn post mentioning SELGRA leadership" loading="lazy" allowfullscreen></iframe>
+              <a class="embed-fallback" href="https://www.linkedin.com/posts/elgra-space_new-management-committee-alert-last-activity-7238921049453510656-PS_f" target="_blank" rel="noreferrer">Open LinkedIn post</a>
+            </article>
+            <article class="linkedin-embed">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7208403164759240705" title="LinkedIn post mentioning SELGRA members" loading="lazy" allowfullscreen></iframe>
+              <a class="embed-fallback" href="https://www.linkedin.com/posts/jakob-mali_it-is-alway-a-great-pleasure-to-be-back-in-activity-7208403164759240705-J_Rp" target="_blank" rel="noreferrer">Open LinkedIn post</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="events" aria-labelledby="eventsTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Calendar</p>
+          <h2 id="eventsTitle">Events</h2>
+          <p>Upcoming fictional events for a public-facing concept page.</p>
+        </div>
+        <div class="calendar-panel" aria-labelledby="calendarTitle">
+          <div class="calendar-toolbar">
+            <div class="inline-heading">
+              <p class="eyebrow">Shared schedule</p>
+              <h3 id="calendarTitle">Calendar preview</h3>
+            </div>
+            <div class="calendar-controls" aria-label="Calendar controls">
+              <button class="icon-button" type="button" id="calendarPrev" aria-label="Previous month">‹</button>
+              <strong id="calendarCurrentMonth"></strong>
+              <button class="icon-button" type="button" id="calendarNext" aria-label="Next month">›</button>
+            </div>
+            <a class="calendar-download" href="data/events.ics" download>Download all events (.ics)</a>
+          </div>
+          <div class="calendar-grid" id="calendarGrid" aria-live="polite"></div>
+        </div>
+        <div class="cards-grid" id="eventsGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="section about-section" id="about" aria-labelledby="aboutTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Association profile</p>
+          <h2 id="aboutTitle">About SELGRA</h2>
+        </div>
+        <div class="about-grid">
+          <article>
+            <h3>Mission</h3>
+            <p>SELGRA supports students and early-career researchers who want to learn, collaborate and grow within the European low gravity research community.</p>
+          </article>
+          <article>
+            <h3>What we do</h3>
+            <p>We host educational formats, research discussions, professional development activities and concept showcases for future member services.</p>
+          </article>
+          <article>
+            <h3>Who it is for</h3>
+            <p>Researchers, educators, clinicians, engineers, designers, data scientists and students who want to work across space, health and education.</p>
+          </article>
+          <article>
+            <h3>Contact</h3>
+            <p>Email the fictional project team at <a href="mailto:contact@example.org">contact@example.org</a> or use this mockup as a discussion prototype.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="member-zone" data-member-zone hidden>
+        <section class="section dashboard-section" id="dashboard" aria-labelledby="dashboardTitle">
+          <div class="section-heading">
+            <p class="eyebrow">Private concept area</p>
+            <h2 id="dashboardTitle">Member Dashboard</h2>
+            <p>A member workspace concept for scanning people, opportunities and near-term actions without turning the site into a full platform yet.</p>
+          </div>
+          <div class="stats-grid" id="statsGrid"></div>
+          <div class="recommend-panel">
+            <h3>Recommended for members</h3>
+            <div class="cards-grid compact" id="recommendedGrid"></div>
+          </div>
+          <div class="recommend-panel">
+            <h3>Saved items</h3>
+            <div class="saved-list" id="savedItemsList"></div>
+          </div>
+        </section>
+
+        <section class="section" id="professionals" aria-labelledby="professionalsTitle">
+          <div class="section-heading">
+            <p class="eyebrow">Member directory mockup</p>
+            <h2 id="professionalsTitle">Pool of Professionals</h2>
+            <p>Find fictional mentors, reviewers and collaborators by discipline, country and availability.</p>
+          </div>
+          <div class="filter-bar">
+            <input id="professionalSearch" type="search" placeholder="Search name, role, affiliation or skill" aria-label="Search professionals">
+            <select id="fieldFilter" aria-label="Filter by field"><option value="">All fields</option></select>
+            <select id="countryFilter" aria-label="Filter by country"><option value="">All countries</option></select>
+            <select id="availabilityFilter" aria-label="Filter by availability"><option value="">All availability</option></select>
+            <label class="check-filter"><input id="verifiedFilter" type="checkbox"><span>Verified only</span></label>
+          </div>
+          <div class="cards-grid" id="professionalsGrid" aria-live="polite"></div>
+        </section>
+
+        <section class="section alt" id="opportunities" aria-labelledby="opportunitiesTitle">
+          <div class="section-heading">
+            <p class="eyebrow">Finder mockup</p>
+            <h2 id="opportunitiesTitle">Scholarships, Training &amp; Workshops Finder</h2>
+            <p>Filter a practical demo catalogue of grants, workshops and training routes for different career stages.</p>
+          </div>
+          <div class="filter-bar">
+            <input id="opportunitySearch" type="search" placeholder="Search title, provider, eligibility or topic" aria-label="Search opportunities">
+            <select id="typeFilter" aria-label="Filter by type"><option value="">All types</option></select>
+            <select id="modeFilter" aria-label="Filter by mode"><option value="">All modes</option></select>
+            <select id="fundingFilter" aria-label="Filter by funding"><option value="">All funding</option></select>
+            <select id="stageFilter" aria-label="Filter by career stage"><option value="">All stages</option></select>
+            <select id="topicFilter" aria-label="Filter by topic"><option value="">All topics</option></select>
+            <select id="deadlineSort" aria-label="Sort by deadline">
+              <option value="asc">Deadline soonest</option>
+              <option value="desc">Deadline latest</option>
+            </select>
+          </div>
+          <div class="cards-grid" id="opportunitiesGrid" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" hidden>
+      <div class="modal">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+        <p class="eyebrow">Demo access</p>
+        <h2 id="loginTitle">Enter Member Mode</h2>
+        <p>Use the demo password to preview the private member interface.</p>
+        <form id="loginForm">
+          <label for="passwordInput">Password</label>
+          <input id="passwordInput" type="password" autocomplete="off" placeholder="selgra-demo">
+          <p class="form-error" id="loginError" role="alert"></p>
+          <button class="button primary" type="submit">Activate Member Mode</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
+      <div class="modal detail-modal">
+        <button class="modal-close" type="button" data-close-detail aria-label="Close">×</button>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>SELGRA static concept mockup. All profiles, emails, opportunities and events are fictional demo data.</p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
