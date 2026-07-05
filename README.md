@@ -33,5 +33,5 @@ Then open `http://localhost:8000`.
 
 ## Deploy
 
-This repository includes a GitHub Pages workflow in `.github/workflows/pages.yml`.
-Push to `main`, then enable Pages with GitHub Actions as the source in repository settings if it is not enabled automatically.
+This repository is ready for GitHub Pages from the `main` branch and `/` root directory.
+Push to `main`, then use repository settings to set Pages source to `Deploy from a branch` if it is not enabled automatically.
