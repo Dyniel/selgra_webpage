@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SELGRA | Student chapter of the European Low Gravity Research Association</title>
-    <meta name="description" content="Static SELGRA concept mockup with public pages and demo Member Mode.">
+    <meta name="description" content="SELGRA connects students and early-career researchers interested in low gravity science and space life sciences.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -25,13 +25,12 @@
           <a href="#about">About</a>
           <a class="member-link" href="#dashboard" data-member-link>Dashboard</a>
           <a class="member-link" href="#opportunities" data-member-link>Opportunities</a>
-          <button class="text-button" type="button" data-open-login>Member Mode</button>
-          <button class="text-button exit-button" type="button" data-exit-member>Exit Member Mode</button>
+          <button class="text-button" type="button" data-open-login>Member Area</button>
+          <button class="text-button exit-button" type="button" data-exit-member>Exit Member Area</button>
         </div>
       </nav>
       <div class="mode-ribbon" data-mode-ribbon hidden>
-        <span>Member Mode Active</span>
-        <strong>Demo UI only</strong>
+        <span>Member Area</span>
       </div>
     </header>
 
@@ -45,7 +44,7 @@
           <p class="hero-copy">SELGRA connects students and early-career researchers interested in low gravity science, microgravity, hypergravity, space life sciences, engineering and professional development.</p>
           <div class="hero-actions">
             <a class="button primary" href="#feed">Explore activities</a>
-            <button class="button secondary" type="button" data-open-login>Enter Member Mode</button>
+            <button class="button secondary" type="button" data-open-login>Enter Member Area</button>
           </div>
         </div>
       </section>
@@ -91,15 +90,11 @@
           </article>
           <article>
             <h3>What we do</h3>
-            <p>We host educational formats, research discussions, professional development activities and concept showcases for future member services.</p>
+            <p>We host educational formats, research discussions and professional development activities for the low gravity research community.</p>
           </article>
           <article>
             <h3>Who it is for</h3>
             <p>Researchers, educators, clinicians, engineers, designers, data scientists and students who want to work across space, health and education.</p>
-          </article>
-          <article>
-            <h3>Contact</h3>
-          <p>Contact details can be added when SELGRA supplies the official address for this page.</p>
           </article>
         </div>
       </section>
@@ -107,9 +102,9 @@
       <section class="member-zone" data-member-zone hidden>
         <section class="section dashboard-section" id="dashboard" aria-labelledby="dashboardTitle">
           <div class="section-heading">
-            <p class="eyebrow">Private concept area</p>
+            <p class="eyebrow">Member area</p>
             <h2 id="dashboardTitle">Member Dashboard</h2>
-            <p>A member workspace concept for scanning people, current open calls and near-term actions without turning the site into a full platform yet.</p>
+            <p>Track current open calls and saved items in one place.</p>
           </div>
           <div class="stats-grid" id="statsGrid"></div>
           <div class="recommend-panel">
@@ -135,14 +130,14 @@
     <div class="modal-backdrop" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" hidden>
       <div class="modal">
         <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
-        <p class="eyebrow">Demo access</p>
-        <h2 id="loginTitle">Enter Member Mode</h2>
-        <p>Use the demo password to preview the private member interface.</p>
+        <p class="eyebrow">Member access</p>
+        <h2 id="loginTitle">Enter Member Area</h2>
+        <p>Enter the member access password.</p>
         <form id="loginForm">
           <label for="passwordInput">Password</label>
-          <input id="passwordInput" type="password" autocomplete="off" placeholder="selgra-demo">
+          <input id="passwordInput" type="password" autocomplete="off">
           <p class="form-error" id="loginError" role="alert"></p>
-          <button class="button primary" type="submit">Activate Member Mode</button>
+          <button class="button primary" type="submit">Enter Member Area</button>
         </form>
       </div>
     </div>
@@ -155,7 +150,7 @@
     </div>
 
     <footer class="site-footer">
-      <p>SELGRA static concept mockup. Opportunities link to public source pages; other content should be added only when supplied.</p>
+      <p>SELGRA | Student chapter of the European Low Gravity Research Association</p>
     </footer>
 
     <script src="app.js" defer></script>

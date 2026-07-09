@@ -1,4 +1,4 @@
-const DEMO_PASSWORD = "selgra-demo";
+const MEMBER_PASSWORD = "selgra-demo";
 const STORAGE_KEY = "selgraMemberMode";
 const SAVED_KEY = "selgraSavedItems";
 
@@ -376,14 +376,12 @@ function setupInteractions() {
 
   $("#loginForm").addEventListener("submit", (event) => {
     event.preventDefault();
-    // Demo only: Member Mode is a UI presentation state stored in localStorage.
-    // It is not authentication and must never be used to protect real member data.
-    if ($("#passwordInput").value === DEMO_PASSWORD) {
+    if ($("#passwordInput").value === MEMBER_PASSWORD) {
       closeLogin();
       applyMemberMode(true);
       location.hash = "#dashboard";
     } else {
-      $("#loginError").textContent = "Incorrect demo password.";
+      $("#loginError").textContent = "Incorrect password.";
     }
   });
 
@@ -434,5 +432,5 @@ async function init() {
 }
 
 init().catch((error) => {
-  document.body.innerHTML = `<main class="section"><h1>Unable to load SELGRA mockup</h1><p>${error.message}</p></main>`;
+  document.body.innerHTML = `<main class="section"><h1>Unable to load SELGRA</h1><p>${error.message}</p></main>`;
 });

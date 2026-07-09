@@ -1,14 +1,14 @@
-# SELGRA Static Mockup
+# SELGRA Website
 
-Static concept website for SELGRA: Student chapter of the European Low Gravity Research Association.
+Static website for SELGRA: Student chapter of the European Low Gravity Research Association.
 
 ## Project Knowledge Base
 
-- This is a pure HTML, CSS and JavaScript mockup for GitHub Pages.
+- This is a pure HTML, CSS and JavaScript website for GitHub Pages.
 - There is no backend, no real registration and no real authentication.
 - `data/opportunities.json` contains only the provided public calls. Feed and events data files are empty unless real items are supplied.
-- The Member Mode password is `selgra-demo`.
-- Member Mode is only a UI demonstration stored in `localStorage`; it must not be used for real personal or member data.
+- The Member Area password is configured in `app.js`.
+- Member Area state is stored in `localStorage`; it must not be used to protect sensitive data.
 
 ## Files
 
