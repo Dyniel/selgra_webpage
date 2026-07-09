@@ -36,7 +36,7 @@ function googleCalendarUrl(event) {
     action: "TEMPLATE",
     text: `SELGRA: ${event.title}`,
     dates: `${compactDate(event.date)}/${compactDate(nextDay(event.date))}`,
-    details: `${event.description}\n\nType: ${event.type}\nTags: ${event.tags.join(", ")}\n\nStatic SELGRA concept mockup event.`,
+    details: `${event.description}\n\nType: ${event.type}\nTags: ${event.tags.join(", ")}\n\nSELGRA event.`,
     location: event.location
   });
 
@@ -93,6 +93,15 @@ function renderPublicViews() {
       ${item.link ? `<a class="link-button" href="${item.link}" target="_blank" rel="noreferrer">Open link</a>` : ""}
     </article>
   `).join("");
+
+  if (!$("#eventsGrid")) return;
+
+  if (!state.events.length) {
+    $("#eventsGrid").innerHTML = "";
+    $("#calendarGrid").innerHTML = "";
+    $("#calendarCurrentMonth").textContent = "";
+    return;
+  }
 
   if (!state.calendarDate) {
     const firstEvent = [...state.events].sort((a, b) => new Date(a.date) - new Date(b.date))[0];
@@ -175,29 +184,14 @@ function fillSelect(selector, values) {
 }
 
 function setupFilters() {
-  fillSelect("#fieldFilter", state.professionals.map((item) => item.fields));
-  fillSelect("#countryFilter", state.professionals.map((item) => [item.country]));
-  fillSelect("#availabilityFilter", state.professionals.map((item) => [item.availability]));
-
-  [
-    "#professionalSearch",
-    "#fieldFilter",
-    "#countryFilter",
-    "#availabilityFilter",
-    "#verifiedFilter"
-  ].forEach((selector) => $(selector).addEventListener("input", renderProfessionals));
-
   [
     "#opportunitySearch"
   ].forEach((selector) => $(selector).addEventListener("input", renderOpportunities));
 }
 
 function renderDashboard() {
-  const upcomingWorkshops = state.events.filter((event) => /workshop|clinic|sprint/i.test(event.type)).length;
   const stats = [
-    ["Professionals available", state.professionals.length],
     ["Open opportunities", state.opportunities.length],
-    ["Upcoming workshops", upcomingWorkshops],
     ["Saved items", state.savedItems.length]
   ];
 
@@ -217,10 +211,12 @@ function renderDashboard() {
       </div>
       <button class="link-button save-button is-saved" type="button" data-save-id="${item.id}" data-save-type="${item.type}" data-save-title="${item.title}" data-save-meta="${item.meta}">Remove</button>
     </article>
-  `).join("") : `<p class="empty-state">Nothing saved yet. Save professionals, events or opportunities to build a personal shortlist.</p>`;
+  `).join("") : `<p class="empty-state">Nothing saved yet. Save opportunities to build a shortlist.</p>`;
 }
 
 function renderProfessionals() {
+  if (!$("#professionalsGrid")) return;
+
   const query = $("#professionalSearch").value.trim();
   const field = $("#fieldFilter").value;
   const country = $("#countryFilter").value;
@@ -404,15 +400,17 @@ function setupInteractions() {
     }
   });
 
-  $("#calendarPrev").addEventListener("click", () => {
-    state.calendarDate.setMonth(state.calendarDate.getMonth() - 1);
-    renderCalendar();
-  });
+  if ($("#calendarPrev") && $("#calendarNext")) {
+    $("#calendarPrev").addEventListener("click", () => {
+      state.calendarDate.setMonth(state.calendarDate.getMonth() - 1);
+      renderCalendar();
+    });
 
-  $("#calendarNext").addEventListener("click", () => {
-    state.calendarDate.setMonth(state.calendarDate.getMonth() + 1);
-    renderCalendar();
-  });
+    $("#calendarNext").addEventListener("click", () => {
+      state.calendarDate.setMonth(state.calendarDate.getMonth() + 1);
+      renderCalendar();
+    });
+  }
 
   document.addEventListener("click", (event) => {
     const button = event.target.closest("[data-save-id]");

@@ -1,48 +1,7 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//SELGRA Static Mockup//Events//EN
+PRODID:-//SELGRA//Static Page//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:SELGRA Demo Events
-X-WR-CALDESC:Fictional SELGRA static mockup events.
-BEGIN:VEVENT
-UID:selgra-demo-20260821@selgra-static
-DTSTAMP:20260705T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:SELGRA: Microgravity Methods Roundtable
-LOCATION:Online
-DESCRIPTION:A focused discussion on designing small-scale experiments for microgravity analogues, including controls, documentation and ethics.
-CATEGORIES:Microgravity research,Methods,Students
-END:VEVENT
-BEGIN:VEVENT
-UID:selgra-demo-20260912@selgra-static
-DTSTAMP:20260705T000000Z
-DTSTART;VALUE=DATE:20260912
-DTEND;VALUE=DATE:20260913
-SUMMARY:SELGRA: Human Performance in Analogue Missions
-LOCATION:Krakow, Poland / Hybrid
-DESCRIPTION:Workshop-style event exploring crew selection, psychological monitoring and team learning in simulated mission environments.
-CATEGORIES:Space psychology,Human factors,Analogue missions
-END:VEVENT
-BEGIN:VEVENT
-UID:selgra-demo-20261003@selgra-static
-DTSTAMP:20260705T000000Z
-DTSTART;VALUE=DATE:20261003
-DTEND;VALUE=DATE:20261004
-SUMMARY:SELGRA: Space Medicine Career Clinic
-LOCATION:Online
-DESCRIPTION:A practical clinic for students and clinicians interested in training routes, interdisciplinary portfolios and research collaboration.
-CATEGORIES:Space medicine,Education,Professional development
-END:VEVENT
-BEGIN:VEVENT
-UID:selgra-demo-20261117@selgra-static
-DTSTAMP:20260705T000000Z
-DTSTART;VALUE=DATE:20261117
-DTEND;VALUE=DATE:20261118
-SUMMARY:SELGRA: Biomedical Data Sprint
-LOCATION:Warsaw, Poland / On-site
-DESCRIPTION:A one-day applied sprint using synthetic datasets to prototype health monitoring dashboards for remote and extreme environments.
-CATEGORIES:AI & data science,Biomedical engineering,Training
-END:VEVENT
+X-WR-CALNAME:SELGRA Events
 END:VCALENDAR

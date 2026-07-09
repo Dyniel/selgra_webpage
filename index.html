@@ -22,10 +22,8 @@
         <div class="nav-links" id="navLinks">
           <a href="#home">Home</a>
           <a href="#feed">Feed</a>
-          <a href="#events">Events</a>
           <a href="#about">About</a>
           <a class="member-link" href="#dashboard" data-member-link>Dashboard</a>
-          <a class="member-link" href="#professionals" data-member-link>Professionals</a>
           <a class="member-link" href="#opportunities" data-member-link>Opportunities</a>
           <button class="text-button" type="button" data-open-login>Member Mode</button>
           <button class="text-button exit-button" type="button" data-exit-member>Exit Member Mode</button>
@@ -56,7 +54,7 @@
         <div class="section-heading">
           <p class="eyebrow">Public updates</p>
           <h2 id="feedTitle">Feed / News</h2>
-          <p>A lightweight public stream mixing demo updates with selected SELGRA-related LinkedIn activity. Demo cards stay local; embeds are loaded directly from LinkedIn.</p>
+          <p>Selected SELGRA-related LinkedIn activity.</p>
         </div>
         <div class="feed-grid" id="feedGrid" aria-live="polite"></div>
         <div class="linkedin-panel" aria-labelledby="linkedinTitle">
@@ -81,30 +79,6 @@
         </div>
       </section>
 
-      <section class="section alt" id="events" aria-labelledby="eventsTitle">
-        <div class="section-heading">
-          <p class="eyebrow">Calendar</p>
-          <h2 id="eventsTitle">Events</h2>
-          <p>Upcoming fictional events for a public-facing concept page.</p>
-        </div>
-        <div class="calendar-panel" aria-labelledby="calendarTitle">
-          <div class="calendar-toolbar">
-            <div class="inline-heading">
-              <p class="eyebrow">Shared schedule</p>
-              <h3 id="calendarTitle">Calendar preview</h3>
-            </div>
-            <div class="calendar-controls" aria-label="Calendar controls">
-              <button class="icon-button" type="button" id="calendarPrev" aria-label="Previous month">‹</button>
-              <strong id="calendarCurrentMonth"></strong>
-              <button class="icon-button" type="button" id="calendarNext" aria-label="Next month">›</button>
-            </div>
-            <a class="calendar-download" href="data/events.ics" download>Download all events (.ics)</a>
-          </div>
-          <div class="calendar-grid" id="calendarGrid" aria-live="polite"></div>
-        </div>
-        <div class="cards-grid" id="eventsGrid" aria-live="polite"></div>
-      </section>
-
       <section class="section about-section" id="about" aria-labelledby="aboutTitle">
         <div class="section-heading">
           <p class="eyebrow">Association profile</p>
@@ -125,7 +99,7 @@
           </article>
           <article>
             <h3>Contact</h3>
-            <p>Email the fictional project team at <a href="mailto:contact@example.org">contact@example.org</a> or use this mockup as a discussion prototype.</p>
+          <p>Contact details can be added when SELGRA supplies the official address for this page.</p>
           </article>
         </div>
       </section>
@@ -142,22 +116,6 @@
             <h3>Saved items</h3>
             <div class="saved-list" id="savedItemsList"></div>
           </div>
-        </section>
-
-        <section class="section" id="professionals" aria-labelledby="professionalsTitle">
-          <div class="section-heading">
-            <p class="eyebrow">Member directory mockup</p>
-            <h2 id="professionalsTitle">Pool of Professionals</h2>
-            <p>Find fictional mentors, reviewers and collaborators by discipline, country and availability.</p>
-          </div>
-          <div class="filter-bar">
-            <input id="professionalSearch" type="search" placeholder="Search name, role, affiliation or skill" aria-label="Search professionals">
-            <select id="fieldFilter" aria-label="Filter by field"><option value="">All fields</option></select>
-            <select id="countryFilter" aria-label="Filter by country"><option value="">All countries</option></select>
-            <select id="availabilityFilter" aria-label="Filter by availability"><option value="">All availability</option></select>
-            <label class="check-filter"><input id="verifiedFilter" type="checkbox"><span>Verified only</span></label>
-          </div>
-          <div class="cards-grid" id="professionalsGrid" aria-live="polite"></div>
         </section>
 
         <section class="section alt" id="opportunities" aria-labelledby="opportunitiesTitle">
@@ -197,7 +155,7 @@
     </div>
 
     <footer class="site-footer">
-      <p>SELGRA static concept mockup. Profiles, emails and events are fictional demo data; opportunities link to public source pages.</p>
+      <p>SELGRA static concept mockup. Opportunities link to public source pages; other content should be added only when supplied.</p>
     </footer>
 
     <script src="app.js" defer></script>
