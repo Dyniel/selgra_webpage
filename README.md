@@ -6,7 +6,7 @@ Static concept website for SELGRA: Student chapter of the European Low Gravity R
 
 - This is a pure HTML, CSS and JavaScript mockup for GitHub Pages.
 - There is no backend, no real registration and no real authentication.
-- Demo data lives in `data/*.json` and is fully fictional.
+- Demo data lives in `data/*.json`; opportunities are real public calls, while the other member/demo datasets are fictional.
 - The Member Mode password is `selgra-demo`.
 - Member Mode is only a UI demonstration stored in `localStorage`; it must not be used for real personal or member data.
 
@@ -18,7 +18,7 @@ Static concept website for SELGRA: Student chapter of the European Low Gravity R
 - `data/feed.json` - public feed cards.
 - `data/events.json` - public events.
 - `data/professionals.json` - fictional professional directory.
-- `data/opportunities.json` - fictional scholarship/training/workshop finder.
+- `data/opportunities.json` - selected real scholarship/training/workshop open calls with source links.
 - `assets/selgra-hero.png` - generated local hero image.
 
 ## Run Locally
