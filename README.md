@@ -18,7 +18,7 @@ Static concept website for SELGRA: Student chapter of the European Low Gravity R
 - `data/feed.json` - public feed cards.
 - `data/events.json` - public events.
 - `data/professionals.json` - fictional professional directory.
-- `data/opportunities.json` - selected real scholarship/training/workshop open calls with source links.
+- `data/opportunities.json` - the provided open calls only, with their source links and quoted descriptions.
 - `assets/selgra-hero.png` - generated local hero image.
 
 ## Run Locally

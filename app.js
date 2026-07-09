@@ -179,12 +179,6 @@ function setupFilters() {
   fillSelect("#countryFilter", state.professionals.map((item) => [item.country]));
   fillSelect("#availabilityFilter", state.professionals.map((item) => [item.availability]));
 
-  fillSelect("#typeFilter", state.opportunities.map((item) => [item.type]));
-  fillSelect("#modeFilter", state.opportunities.map((item) => [item.mode]));
-  fillSelect("#fundingFilter", state.opportunities.map((item) => [item.funding]));
-  fillSelect("#stageFilter", state.opportunities.map((item) => [item.careerStage]));
-  fillSelect("#topicFilter", state.opportunities.map((item) => item.topics));
-
   [
     "#professionalSearch",
     "#fieldFilter",
@@ -194,13 +188,7 @@ function setupFilters() {
   ].forEach((selector) => $(selector).addEventListener("input", renderProfessionals));
 
   [
-    "#opportunitySearch",
-    "#typeFilter",
-    "#modeFilter",
-    "#fundingFilter",
-    "#stageFilter",
-    "#topicFilter",
-    "#deadlineSort"
+    "#opportunitySearch"
   ].forEach((selector) => $(selector).addEventListener("input", renderOpportunities));
 }
 
@@ -217,19 +205,6 @@ function renderDashboard() {
     <article class="stat-card">
       <strong>${value}</strong>
       <span>${label}</span>
-    </article>
-  `).join("");
-
-  const recommendations = [
-    ["Build a synthetic microgravity dataset", "Start with mock sensor signals and a clear data dictionary for education-focused analysis."],
-    ["Invite a human factors reviewer", "Use the professional directory to strengthen training protocols before public workshops."],
-    ["Track opportunity deadlines", "Shortlist grants and workshops by topic, mode and career stage."]
-  ];
-
-  $("#recommendedGrid").innerHTML = recommendations.map(([title, body]) => `
-    <article class="card">
-      <h3>${title}</h3>
-      <p>${body}</p>
     </article>
   `).join("");
 
@@ -299,53 +274,32 @@ function renderProfessionals() {
 
 function renderOpportunities() {
   const query = $("#opportunitySearch").value.trim();
-  const type = $("#typeFilter").value;
-  const mode = $("#modeFilter").value;
-  const funding = $("#fundingFilter").value;
-  const stage = $("#stageFilter").value;
-  const topic = $("#topicFilter").value;
-  const direction = $("#deadlineSort").value === "desc" ? -1 : 1;
 
   const results = state.opportunities
     .filter((item) => {
       const matchesText = !query || includesText([
         item.title,
-        item.provider,
-        item.location,
-        item.eligibility,
         item.description,
-        ...item.topics
+        item.url
       ], query);
-      return matchesText
-        && (!type || item.type === type)
-        && (!mode || item.mode === mode)
-        && (!funding || item.funding === funding)
-        && (!stage || item.careerStage === stage)
-        && (!topic || item.topics.includes(topic));
-    })
-    .sort((a, b) => direction * (new Date(a.deadline) - new Date(b.deadline)));
+      return matchesText;
+    });
 
   $("#opportunitiesGrid").innerHTML = results.map((item, index) => `
     <article class="card">
-      <div class="opportunity-head">
-        <span class="status-pill">${item.type}</span>
-        <span class="card-meta">${item.mode}</span>
-      </div>
       <h3>${item.title}</h3>
-      <p><strong>${item.provider}</strong><br>Deadline: ${formatDate(item.deadline)}</p>
-      <p>${item.funding} · ${item.eligibility}</p>
-      <div class="tag-list">${makeTags(item.topics)}</div>
+      <p>${item.description}</p>
       <div class="card-actions">
         <button class="link-button" type="button" data-opportunity="${index}">Details</button>
         ${saveButton({
           id: itemId("opportunity", item.title),
           type: "Opportunity",
           title: item.title,
-          meta: `${item.type} · ${formatDate(item.deadline)}`
+          meta: "Open call"
         })}
       </div>
     </article>
-  `).join("") || `<p>No opportunities match the current filters.</p>`;
+  `).join("") || `<p>No opportunities match the current search.</p>`;
 
   $$("[data-opportunity]").forEach((button) => {
     button.addEventListener("click", () => openOpportunity(results[Number(button.dataset.opportunity)]));
@@ -368,14 +322,9 @@ function openProfile(person) {
 
 function openOpportunity(item) {
   $("#detailContent").innerHTML = `
-    <p class="eyebrow">${item.type}</p>
+    <p class="eyebrow">Open call</p>
     <h2 id="detailTitle">${item.title}</h2>
-    <p><strong>${item.provider}</strong><br>${item.location} · ${item.mode}</p>
-    <p><strong>Deadline:</strong> ${formatDate(item.deadline)}</p>
-    <p><strong>Funding:</strong> ${item.funding}</p>
-    <p><strong>Eligibility:</strong> ${item.eligibility}</p>
     <p>${item.description}</p>
-    <div class="tag-list">${makeTags(item.topics)}</div>
     <div class="card-actions"><a class="link-button" href="${item.url}" target="_blank" rel="noreferrer">Open source</a></div>
   `;
   openDetail();
